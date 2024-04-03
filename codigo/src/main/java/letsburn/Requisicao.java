@@ -1,11 +1,11 @@
 package letsburn;
 
 import java.time.LocalDateTime;
-import java.util.Random;
 
 public class Requisicao {
 
-    private String id;
+    private static int proximoId;
+    private int id;
     private LocalDateTime horarioEntrada;
     private LocalDateTime horarioSaida;
     private int qtdPessoas;
@@ -14,6 +14,9 @@ public class Requisicao {
     private Cliente cliente; 
     // Será utilizado um objeto da classe Cliente
 
+    static {
+        proximoId = 1;
+    }
     /**
      * Metodo construtor para a classe Requisição. Utilizando como parametros o cliente e qtdPessoas. Gera um Id para a requisição.
      * @param cliente instancia da classe Cliente
@@ -24,16 +27,8 @@ public class Requisicao {
         this.cliente = cliente;
         this.qtdPessoas = qtdPessoas;
         this.horarioEntrada = LocalDateTime.now();
-        
-        Random random = new Random();
-
-        int num1 = random.nextInt(10);
-        int num2 = random.nextInt(10);
-        int num3 = random.nextInt(10);
-        int num4 = random.nextInt(10);
-
-        this.id = "" + num1 + num2 + num3 + num4;
-        System.out.println("Identificação" + this.id);
+        this.id = proximoId;
+        proximoId++;
     }
 
     /**
@@ -42,15 +37,8 @@ public class Requisicao {
     public Requisicao(){
 
         horarioEntrada = LocalDateTime.now();
-        Random random = new Random();
-
-        int num1 = random.nextInt(10);
-        int num2 = random.nextInt(10);
-        int num3 = random.nextInt(10);
-        int num4 = random.nextInt(10);
-
-        this.id = "" + num1 + num2 + num3 + num4;
-        System.out.println("Identificação" + this.id);
+        this.id = proximoId;
+        proximoId++;
 
     }
 
@@ -58,13 +46,13 @@ public class Requisicao {
      * Metodo Getter para o atributo Id
      * @return retorna o valor do Id da requisição.
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
     /**
      * Metodo setter para o atributo Id. Utiliza como parametro o novo valor de Id da requisição.
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     /**
