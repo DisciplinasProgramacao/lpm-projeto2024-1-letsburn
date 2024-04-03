@@ -5,7 +5,7 @@ package letsburn;
  * Criação da Classe Cliente do restaurante lestburn
  */
 
- public class Cliente {
+public class Cliente {
     private static int proximoId = 1;
     private int id;
     private String nome;
