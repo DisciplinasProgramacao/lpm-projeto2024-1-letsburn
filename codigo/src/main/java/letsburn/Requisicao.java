@@ -36,4 +36,8 @@ public class Requisicao {
         this.quantidadePessoas = quantidadePessoas;
     }
 
+    public void encerrar(){
+
+    }
+
 }
