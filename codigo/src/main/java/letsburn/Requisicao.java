@@ -80,7 +80,8 @@ public class Requisicao {
      */
     public Cliente getCliente() {
         return cliente;
+      
+    public void encerrar(){
     }
-
 }
 
