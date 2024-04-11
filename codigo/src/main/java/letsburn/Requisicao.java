@@ -9,10 +9,14 @@ public class Requisicao {
     private LocalDateTime horarioEntrada;
     private LocalDateTime horarioSaida;
     private int qtdPessoas;
+    private boolean status;
     private Mesa mesa; 
     //Será usado um objeto da classe Mesa
     private Cliente cliente; 
     // Será utilizado um objeto da classe Cliente
+    private Pedido pedido; 
+    // Será utilizado um objeto da classe Pedido
+
 
     static {
         proximoId = 1;
@@ -26,6 +30,7 @@ public class Requisicao {
 
         this.cliente = cliente;
         this.qtdPessoas = qtdPessoas;
+        this.status = true;
         this.horarioEntrada = LocalDateTime.now();
         this.id = proximoId;
         proximoId++;
@@ -81,7 +86,15 @@ public class Requisicao {
     public Cliente getCliente() {
         return cliente;
     }
+    /**
+     * Metodo para encerrar a requisição. 
+     * Grava o horario de saída, muda o status da mesa para false e o status da requisição para false.
+     * Obs: verificar ocupada, em andamento e finalizada
+     */
     public void encerrar(){
+        horarioSaida = LocalDateTime.now();
+        mesa.setOcupada(false);
+        this.status = false;
     }
 }
 
