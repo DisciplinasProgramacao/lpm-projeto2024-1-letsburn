@@ -32,17 +32,6 @@ public class Requisicao {
     }
 
     /**
-     * Metodo construtor para a classe Requisição. Sem utilização de parametros. Gera um Id para a requisição.
-     */
-    public Requisicao(){
-
-        horarioEntrada = LocalDateTime.now();
-        this.id = proximoId;
-        proximoId++;
-
-    }
-
-    /**
      * Metodo Getter para o atributo Id
      * @return retorna o valor do Id da requisição.
      */
@@ -76,6 +65,13 @@ public class Requisicao {
      */
     public Mesa getMesa() {
         return mesa;
+    }
+    /**
+     * Metodo setter para o atributo mesa. 
+     * @param mesa Utiliza como parametro o novo valor do atributo mesa da requisição.
+     */
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
     }
 
     /**
