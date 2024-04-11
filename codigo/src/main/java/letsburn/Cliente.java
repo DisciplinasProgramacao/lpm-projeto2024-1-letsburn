@@ -34,12 +34,4 @@ public class Cliente {
     public int getId() {
         return id;
     }
-
-    /**
-     * Getter para obter nome.
-     * @return Nome do cliente.
-     */
-    public String getNome() {
-        return nome;
-    }
 }

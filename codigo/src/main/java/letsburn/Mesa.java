@@ -4,6 +4,7 @@ package letsburn;
  * Classe que representa uma mesa em um restaurante.
  */
 public class Mesa {
+
     private String id;         // Identificador da mesa
     private int capacidade;    // Capacidade máxima da mesa
     private boolean ocupada;   // Indica se a mesa está ocupada ou não
