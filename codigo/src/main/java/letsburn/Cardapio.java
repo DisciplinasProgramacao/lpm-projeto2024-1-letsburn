@@ -1,26 +1,30 @@
 package letsburn;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Cardapio {
-    private List<Produto> produtos;
+    private List<Produto> produtos = new ArrayList<>();
 
     public Cardapio(){
         populaProdutos();
     }
 
     private void populaProdutos(){
-        produtos.add(new Produto("Água", 3));
-        produtos.add(new Produto("Copo de suco", 2));
-        produtos.add(new Produto("Regrigerante orgânico", 7));
-        produtos.add(new Produto("Cerveja vegana", 9));
-        produtos.add(new Produto("Taça de vinho vegano", 18));
-        produtos.add(new Produto("Moqueca de Palmito", 32));
-        produtos.add(new Produto("Falavel Assado", 20));
-        produtos.add(new Produto("Salada Primavera com  Macarraão Konjac", 25));
-        produtos.add(new Produto("Escondidinho de Inhame", 18));
-        produtos.add(new Produto("Strogonoff de Cogumelos", 35));
-        produtos.add(new Produto("Caçarola de legumes", 22));
+        produtos.addAll(Arrays.asList(
+                new Produto("Água", 3),
+                new Produto("Copo de suco", 2),
+                new Produto("Refrigerante orgânico", 7),
+                new Produto("Cerveja vegana", 9),
+                new Produto("Taça de vinho vegano", 18),
+                new Produto("Moqueca de Palmito", 32),
+                new Produto("Falavel Assado", 20),
+                new Produto("Salada Primavera com Macarrão Konjac", 25),
+                new Produto("Escondidinho de Inhame", 18),
+                new Produto("Strogonoff de Cogumelos", 35),
+                new Produto("Caçarola de legumes", 22)
+        ));
     }
 
     public Produto retornaProduto(int id_produtos){
