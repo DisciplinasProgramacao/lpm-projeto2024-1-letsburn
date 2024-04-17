@@ -9,6 +9,7 @@ public class Restaurante {
     private final List<Mesa> mesas;
     private final List<Requisicao> requisicoesAtivas = new ArrayList<>();
     private final List<Requisicao> requisicoesEmEspera = new ArrayList<>();
+    private final Cardapio cardapio = new Cardapio();
 
     public Restaurante(List<Mesa> mesas) {
         this.mesas = mesas;
