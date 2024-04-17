@@ -11,7 +11,7 @@ public class Mesa {
     /**
      * Construtor da classe Mesa.
      * @param id Identificador da mesa.
-     * @param ocupada Indica se a mesa está ocupada.
+     * @param ocupada Indica se a mesa está ocupada
      */
     public Mesa(String id, boolean ocupada) {
         this.id = id;
