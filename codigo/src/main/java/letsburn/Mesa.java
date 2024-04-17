@@ -4,19 +4,18 @@ package letsburn;
  * Classe que representa uma mesa em um restaurante.
  */
 public class Mesa {
-    private String id;         // Identificador da mesa
-    private int capacidade;    // Capacidade máxima da mesa
-    private boolean ocupada;   // Indica se a mesa está ocupada ou não
+    private String id;         
+    private int capacidade;    
+    private boolean ocupada;   
 
     /**
      * Construtor da classe Mesa.
      * @param id Identificador da mesa.
-     * @param capacidade Capacidade máxima da mesa.
      * @param ocupada Indica se a mesa está ocupada.
      */
-    public Mesa(String id, int capacidade, boolean ocupada) {
+    public Mesa(String id, boolean ocupada) {
         this.id = id;
-        this.capacidade = capacidade;
+        this.capacidade = 4; // Definindo a capacidade máxima como 4
         this.ocupada = ocupada;
     }
 
@@ -49,6 +48,8 @@ public class Mesa {
      * @param capacidade A nova capacidade máxima da mesa.
      */
     public void setCapacidade(int capacidade) {
+        // Você pode optar por não ter esse método setter, 
+        // já que a capacidade máxima é fixa em 4
         this.capacidade = capacidade;
     }
 
