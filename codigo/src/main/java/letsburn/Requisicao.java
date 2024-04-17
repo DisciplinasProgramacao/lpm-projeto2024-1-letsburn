@@ -91,10 +91,9 @@ public class Requisicao {
      * Grava o horario de saída, muda o status da mesa para false e o status da requisição para false.
      * Obs: verificar ocupada, em andamento e finalizada
      */
-    public void encerrar(){
+    public void encerrar(Mesa mesa){
         horarioSaida = LocalDateTime.now();
         mesa.setOcupada(false);
-        this.status = false;
     }
 }
 
