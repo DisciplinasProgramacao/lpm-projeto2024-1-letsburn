@@ -1,15 +1,24 @@
 package letsburn;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
     private static final Scanner entrada = new Scanner(System.in);
     private static boolean funcionamento = true;
+    private static Restaurante restauranteLetsBurn = null;
+    private static List<Cliente> listClientes = new ArrayList<>();
 
     public static void main(String[] args) {
-        Restaurante restaurante = new Restaurante();
+        List<Mesa> mesas = new ArrayList<>();
+        mesas.addAll(criaMesas(4, 4));
+        mesas.addAll(criaMesas(4, 6));
+        mesas.addAll(criaMesas(2, 8));
+        restauranteLetsBurn = new Restaurante(mesas);
+
         do {
             MenuPrincipal();
         } while (funcionamento);
@@ -22,10 +31,22 @@ public class Main {
                 System.out.println("Saindo do sistema...");
                 break;
             case 1:
+                System.out.println("Qual o nome do Cliente?");
+                String nome = entrada.nextLine();
+                salvaCliente(new Cliente(nome));
+
+                System.out.println("Quantas pessoas são?");
+                int qtdPessoas = Integer.parseInt(entrada.nextLine());
+
+                restauranteLetsBurn.gerarRequisicao(listClientes.get(listClientes.size() - 1), qtdPessoas);
                 break;
             case 2:
+                System.out.println("Qual o nome do Cliente?");
+                final String finalNome = entrada.nextLine();
+                listClientes.stream().filter(c -> c.getNome().equals(finalNome)).findFirst().ifPresent(restauranteLetsBurn::liberarRequisicao);
                 break;
             case 3:
+                restauranteLetsBurn.exibirListaEspera();
                 break;
             default:
                 System.out.println("Essa opção não existe!");
@@ -34,14 +55,15 @@ public class Main {
     }
 
     private static void MenuPrincipal() {
+        StringBuilder menu = new StringBuilder();
         limpaTela();
         imprimeLogo();
-        System.out.println("Restaurante Let's Burn - Menu Principal");
-        System.out.println("1 - Atender Cliente");
-        System.out.println("2 - Liberar CLiente");
-        System.out.println("3 - Exibir Lista de Espera");
-        System.out.println("0 - Sair");
-        System.out.println();
+        menu.append("Restaurante Let's Burn - Menu Principal\n");
+        menu.append("1 - Atender Cliente\n");
+        menu.append("2 - Liberar Cliente\n");
+        menu.append("3 - Exibir Lista de Espera\n");
+        menu.append("0 - Sair\n\n");
+        System.out.println(menu);
         SelecaoMenuPrincipal();
     }
 
@@ -102,4 +124,23 @@ public class Main {
     private static void AdormeceSistema() {
         AdormeceSistema(2000L);
     }
+
+    //O restaurante tem:
+    //	10 mesas
+    //		4 - 4 pessoas
+    //		4 - 6 pessoas
+    //		2 - 8 pessoas
+    private static List<Mesa> criaMesas(int qtdMesas, int pessoas){
+        List<Mesa> mesas = new ArrayList<>();
+        for (int i = 0; i < qtdMesas; i++) {
+            mesas.add(new Mesa(pessoas));
+        }
+        return mesas;
+    }
+
+    private static void salvaCliente(Cliente cliente){
+        listClientes.add(cliente);
+    }
+
+
 }
