@@ -9,6 +9,7 @@ public class Restaurante {
     private final List<Mesa> mesas;
     private final List<Requisicao> requisicoesAtivas = new ArrayList<>();
     private final List<Requisicao> requisicoesEmEspera = new ArrayList<>();
+
     public Restaurante(List<Mesa> mesas) {
         this.mesas = mesas;
     }
@@ -94,4 +95,10 @@ public class Restaurante {
         return this.requisicoesEmEspera.stream().filter(r -> r.getQuantidadePessoas() <= mesa.getCapacidade()).findFirst();
     }
 
+    /** Exibe lista de espera
+     */
+    public void exibirListaEspera() {
+        System.out.println("Lista de espera:");
+        this.requisicoesEmEspera.forEach(r -> System.out.println(r.getCliente().getNome()));
+    }
 }
