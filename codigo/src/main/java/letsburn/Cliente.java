@@ -23,8 +23,9 @@ public class Cliente {
      */
 
     public Cliente(String nome) {
-        this.id = proximoId++;
+        this.id = proximoId;
         this.nome = nome;
+        proximoId++;
     }
 
     /**

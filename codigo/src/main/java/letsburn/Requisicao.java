@@ -10,30 +10,44 @@ public class Requisicao {
     private LocalDateTime horarioSaida;
     private int qtdPessoas;
     private boolean status;
-    private Mesa mesa; 
-    //Será usado um objeto da classe Mesa
-    private Cliente cliente; 
-    // Será utilizado um objeto da classe Cliente
+    private Mesa mesa;
+    private Cliente cliente;
     private Pedido pedido; 
-    // Será utilizado um objeto da classe Pedido
+
 
 
     static {
         proximoId = 1;
     }
+
+    private void init(Cliente cliente, int qtdPessoas){
+        this.cliente = cliente;
+        this.status = true;
+        this.horarioEntrada = LocalDateTime.now();
+        this.id = proximoId;
+        proximoId++;
+
+        if (qtdPessoas <= 0)
+            this.qtdPessoas = 1;
+        else if (qtdPessoas > 8)
+            this.qtdPessoas = 8;
+        else
+            this.qtdPessoas = qtdPessoas;
+    }
+
     /**
      * Metodo construtor para a classe Requisição. Utilizando como parametros o cliente e qtdPessoas. Gera um Id para a requisição.
      * @param cliente instancia da classe Cliente
      * @param qtdPessoas quantidade de pessoas que estão aguardando por uma Mesa
      */
     public Requisicao (Cliente cliente, int qtdPessoas){
+        init(cliente, qtdPessoas);
+    }
 
-        this.cliente = cliente;
-        this.qtdPessoas = qtdPessoas;
-        this.status = true;
-        this.horarioEntrada = LocalDateTime.now();
-        this.id = proximoId;
-        proximoId++;
+    public Requisicao(Cliente cliente, Mesa mesa, int qtdPessoas) {
+        init(cliente, qtdPessoas);
+        this.mesa = mesa;
+        mesa.setOcupada(true);
     }
 
     /**

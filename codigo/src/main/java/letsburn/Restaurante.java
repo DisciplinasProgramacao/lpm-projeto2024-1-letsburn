@@ -83,8 +83,8 @@ public class Restaurante {
     /** Desaloca requisição na lista de espera
      * @param id: id da requisição a ser desalocada
      */
-    private void desalocarRequisicaoEmEspera(String id) {
-        this.requisicoesEmEspera.remove(this.requisicoesEmEspera.stream().filter(r -> r.getId().equals(id)).findFirst().get());
+    private void desalocarRequisicaoEmEspera(int id) {
+        this.requisicoesEmEspera.remove(this.requisicoesEmEspera.stream().filter(r -> r.getId() == id).findFirst().get());
     }
 
     /** Busca requisicao na lista de espera que possa ser atendida por uma mesa liberada
@@ -92,7 +92,7 @@ public class Restaurante {
      * @return Optional<Requisicao>
      */
     private Optional<Requisicao> buscarRequisicaoEmEspera(Mesa mesa) {
-        return this.requisicoesEmEspera.stream().filter(r -> r.getQuantidadePessoas() <= mesa.getCapacidade()).findFirst();
+        return this.requisicoesEmEspera.stream().filter(r -> r.getQtdPessoas() <= mesa.getCapacidade()).findFirst();
     }
 
     /** Exibe lista de espera
