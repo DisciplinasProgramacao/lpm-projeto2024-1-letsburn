@@ -1,43 +1,100 @@
 package letsburn;
 
+import java.time.LocalDateTime;
+
 public class Requisicao {
 
-    private final String id = "1";
-    private final Cliente cliente;
+    private static int proximoId;
+    private int id;
+    private LocalDateTime horarioEntrada;
+    private LocalDateTime horarioSaida;
+    private int qtdPessoas;
+    private boolean status;
+    private Mesa mesa; 
+    //Será usado um objeto da classe Mesa
+    private Cliente cliente; 
+    // Será utilizado um objeto da classe Cliente
+    private Pedido pedido; 
+    // Será utilizado um objeto da classe Pedido
 
-    private final Mesa mesa;
 
-    private final Integer quantidadePessoas;
+    static {
+        proximoId = 1;
+    }
+    /**
+     * Metodo construtor para a classe Requisição. Utilizando como parametros o cliente e qtdPessoas. Gera um Id para a requisição.
+     * @param cliente instancia da classe Cliente
+     * @param qtdPessoas quantidade de pessoas que estão aguardando por uma Mesa
+     */
+    public Requisicao (Cliente cliente, int qtdPessoas){
 
-    public String getId() {
+        this.cliente = cliente;
+        this.qtdPessoas = qtdPessoas;
+        this.status = true;
+        this.horarioEntrada = LocalDateTime.now();
+        this.id = proximoId;
+        proximoId++;
+    }
+
+    /**
+     * Metodo Getter para o atributo Id
+     * @return retorna o valor do Id da requisição.
+     */
+    public int getId() {
         return id;
     }
-
-    public Cliente getCliente() {
-        return cliente;
+    /**
+     * Metodo Getter para o atributo horarioEntrada.
+     * @return retorna o valor do horário de entrada do cliente.
+     */
+    public LocalDateTime getHorarioEntrada() {
+        return horarioEntrada;
     }
-
+    /**
+     * Metodo Getter para o atributo horarioSaida.
+     * @return retorna o valor do horário de saída do cliente.
+     */
+    public LocalDateTime getHorarioSaida() {
+        return horarioSaida;
+    }
+    /**
+     * Metodo Getter para o atributo qtdPessoas.
+     * @return retorna o valor da quantidade de pessoas para a requisição.
+     */
+    public int getQtdPessoas() {
+        return qtdPessoas;
+    }
+    /**
+     * Metodo Getter para o atributo Mesa.
+     * @return retorna o valor do objeto mesa.
+     */
     public Mesa getMesa() {
         return mesa;
     }
-
-    public Integer getQuantidadePessoas() {
-        return quantidadePessoas;
-    }
-
-    public Requisicao(Cliente cliente, Mesa mesa, Integer quantidadePessoas) {
-        this.cliente = cliente;
+    /**
+     * Metodo setter para o atributo mesa. 
+     * @param mesa Utiliza como parametro o novo valor do atributo mesa da requisição.
+     */
+    public void setMesa(Mesa mesa) {
         this.mesa = mesa;
-        this.quantidadePessoas = quantidadePessoas;
     }
 
-    public Requisicao(Cliente cliente, Integer quantidadePessoas) {
-        this.cliente = cliente;
-        this.quantidadePessoas = quantidadePessoas;
+    /**
+     * Metodo Getter para o atributo cliente
+     * @return retorna o valor do objeto cliente.
+     */
+    public Cliente getCliente() {
+        return cliente;
     }
-
+    /**
+     * Metodo para encerrar a requisição. 
+     * Grava o horario de saída, muda o status da mesa para false e o status da requisição para false.
+     * Obs: verificar ocupada, em andamento e finalizada
+     */
     public void encerrar(){
-
+        horarioSaida = LocalDateTime.now();
+        mesa.setOcupada(false);
+        this.status = false;
     }
-
 }
+
