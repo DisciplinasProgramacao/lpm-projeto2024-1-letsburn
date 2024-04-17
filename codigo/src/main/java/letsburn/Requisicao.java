@@ -110,5 +110,9 @@ public class Requisicao {
         mesa.setOcupada(false);
         this.status = false;
     }
+
+    public double valorDivididoEntrePessoas(){
+        return pedido.retornaTotal() / qtdPessoas;
+    }
 }
 

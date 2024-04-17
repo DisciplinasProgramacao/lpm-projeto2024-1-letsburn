@@ -15,6 +15,7 @@ public class Mesa {
         this.id = proximoId++;
         this.ocupada = false;
 
+        //TODO: melhorar essa logica
         if (capacidade <= 0)
             this.capacidade = 4;
         else if (capacidade > 8)

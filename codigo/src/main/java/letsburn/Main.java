@@ -10,7 +10,7 @@ public class Main {
     private static final Scanner entrada = new Scanner(System.in);
     private static boolean funcionamento = true;
     private static Restaurante restauranteLetsBurn = null;
-    private static List<Cliente> listClientes = new ArrayList<>();
+    private static final List<Cliente> listClientes = new ArrayList<>();
 
     public static void main(String[] args) {
         List<Mesa> mesas = new ArrayList<>();
