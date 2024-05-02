@@ -1,11 +1,19 @@
 package letsburn;
 
-import java.io.IOException;
+import letsburn.model.Cliente;
+import letsburn.model.Mesa;
+import letsburn.model.Restaurante;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+@SpringBootApplication
+public class App {
 
     private static final Scanner entrada = new Scanner(System.in);
     private static boolean funcionamento = true;
@@ -13,15 +21,22 @@ public class Main {
     private static List<Cliente> listClientes = new ArrayList<>();
 
     public static void main(String[] args) {
-        List<Mesa> mesas = new ArrayList<>();
-        mesas.addAll(criaMesas(4, 4));
-        mesas.addAll(criaMesas(4, 6));
-        mesas.addAll(criaMesas(2, 8));
-        restauranteLetsBurn = new Restaurante(mesas);
+        SpringApplication.run(App.class, args);
+    }
 
-        do {
-            MenuPrincipal();
-        } while (funcionamento);
+    @Bean
+    public static CommandLineRunner initialiazer() {
+        return args -> {
+            List<Mesa> mesas = new ArrayList<>();
+            mesas.addAll(criaMesas(4, 4));
+            mesas.addAll(criaMesas(4, 6));
+            mesas.addAll(criaMesas(2, 8));
+            restauranteLetsBurn = new Restaurante(mesas);
+
+            do {
+                MenuPrincipal();
+            } while (funcionamento);
+        };
     }
 
     private static void SelecaoMenuPrincipal() {
@@ -56,7 +71,7 @@ public class Main {
 
     private static void MenuPrincipal() {
         StringBuilder menu = new StringBuilder();
-        limpaTela();
+//        limpaTela();
         imprimeLogo();
         menu.append("Restaurante Let's Burn - Menu Principal\n");
         menu.append("1 - Atender Cliente\n");
@@ -85,7 +100,7 @@ public class Main {
                 entradaInvalida = true;
             }
         } while (entradaInvalida);
-        limpaTela();
+//        limpaTela();
         return opcao;
     }
 
@@ -100,18 +115,18 @@ public class Main {
         System.out.println();
     }
 
-    private static void limpaTela() {
-        try {
-            String os = System.getProperty("os.name");
-            if (os.contains("windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+//    private static void limpaTela() {
+//        try {
+//            String os = System.getProperty("os.name");
+//            if (os.contains("windows")) {
+//                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+//            } else {
+//                new ProcessBuilder("clear").inheritIO().start().waitFor();
+//            }
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private static void AdormeceSistema(long ms) {
         try {

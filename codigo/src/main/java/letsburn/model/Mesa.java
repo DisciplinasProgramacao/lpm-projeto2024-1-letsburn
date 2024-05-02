@@ -1,4 +1,4 @@
-package letsburn;
+package letsburn.model;
 
 /**
  * Classe que representa uma mesa em um restaurante.

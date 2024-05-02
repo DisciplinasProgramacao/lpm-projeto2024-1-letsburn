@@ -1,4 +1,4 @@
-package letsburn;
+package letsburn.model;
 
 import java.time.LocalDateTime;
 
@@ -9,24 +9,27 @@ public class Requisicao {
     private LocalDateTime horarioEntrada;
     private LocalDateTime horarioSaida;
     private int qtdPessoas;
-    private boolean status;
+    private boolean ativa;
     private Mesa mesa;
     private Cliente cliente;
-    private Pedido pedido; 
-
-
+    private Comanda comanda;
 
     static {
         proximoId = 1;
     }
 
-    private void init(Cliente cliente, int qtdPessoas){
+    public boolean isAtiva() {
+        return ativa;
+    }
+
+    private void init(Cliente cliente, int qtdPessoas, boolean status){
         this.cliente = cliente;
-        this.status = true;
+        this.ativa = status;
         this.horarioEntrada = LocalDateTime.now();
         this.id = proximoId;
         proximoId++;
 
+        // TODO: repensar isso aqui, lançar exception, printar erro e retornar null, o que for. Definir a quantidade de pessoas igual a oito, caso a quantidade solicitada seja maior que oito não é uma boa saída
         if (qtdPessoas <= 0)
             this.qtdPessoas = 1;
         else if (qtdPessoas > 8)
@@ -40,12 +43,12 @@ public class Requisicao {
      * @param cliente instancia da classe Cliente
      * @param qtdPessoas quantidade de pessoas que estão aguardando por uma Mesa
      */
-    public Requisicao (Cliente cliente, int qtdPessoas){
-        init(cliente, qtdPessoas);
+    public Requisicao (Cliente cliente, int qtdPessoas, boolean ativa){
+        init(cliente, qtdPessoas, ativa);
     }
 
-    public Requisicao(Cliente cliente, Mesa mesa, int qtdPessoas) {
-        init(cliente, qtdPessoas);
+    public Requisicao(Cliente cliente, Mesa mesa, int qtdPessoas, boolean ativa) {
+        init(cliente, qtdPessoas, ativa);
         this.mesa = mesa;
         mesa.setOcupada(true);
     }
@@ -108,7 +111,11 @@ public class Requisicao {
     public void encerrar(){
         horarioSaida = LocalDateTime.now();
         mesa.setOcupada(false);
-        this.status = false;
+        this.ativa = false;
+    }
+
+    public void atualizarStatus(boolean status){
+        this.ativa = status;
     }
 }
 
