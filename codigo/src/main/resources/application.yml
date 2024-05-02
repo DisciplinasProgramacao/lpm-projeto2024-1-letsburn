@@ -1,27 +1,21 @@
-# 配置tomcat端口号
 server:
-  port: 8080
+  port:
 
-# 配置数据源
 spring:
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/xxx_db
-    username: root
-    password: root
-
-# 配置mybatis
-mybatis:
-  # 配置类型别名包扫描
-  type-aliases-package: com.xxx.xxx.pojo
-  # 配置sql语句映射文件路径
-  mapper-locations:
-    - classpath:mappers/*.xml
-  # 驼峰映射
-  configuration:
-    map-underscore-to-camel-case: true
-
-# 配置日志
+    url: jdbc:mysql://localhost:3306/my_database?useSSL=false&serverTimezone=UTC
+    username: your_username
+    password: your_password
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true # format SQL queries for better readability
 logging:
   level:
-    com.xxx: debug
+    org.springframework: DEBUG
+    org.hibernate: DEBUG
