@@ -2,17 +2,17 @@ package letsburn.model;
 
 public class ItemCardapio {
     private final String nome;
-    private final Double preco;
+    private final double preco;
 
     public String getNome() {
         return nome;
     }
 
-    public Double getPreco() {
+    public double getPreco() {
         return preco;
     }
 
-    public ItemCardapio(String nome, Double preco) {
+    public ItemCardapio(String nome, double preco) {
         this.nome = nome;
         this.preco = preco;
     }
