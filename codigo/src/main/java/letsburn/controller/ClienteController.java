@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 /**
- * Classe que expõe endpoints de API para gerenciamento de clientes no sistema.
+ * Classe que expõe endpoints de API par gerenciamento de clientes no sistema.
  */
 @RestController
 @RequestMapping("/cliente")  // Define a base URL para todos os métodos deste controlador.
@@ -24,7 +24,7 @@ public class ClienteController {
     /**
      * Cria um novo cliente com base nos dados fornecidos.
      *
-     * @param requestClienteDTO Dados do cliente para criação.
+     * @param requestClienteDTaO Dados do cliente para criação.
      * @return Retorna um ResponseEntity com o URI do cliente criado e status HTTP 201.
      */
     @PostMapping
