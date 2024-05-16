@@ -1,5 +1,8 @@
 package letsburn;
 
+import letsburn.model.Cliente;
+import letsburn.model.Mesa;
+import letsburn.model.Restaurante;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

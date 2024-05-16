@@ -1,5 +1,5 @@
 
-package letsburn;
+package letsburn.model;
 
 /**
  * Criação da Classe Cliente do restaurante lestburn
@@ -19,12 +19,12 @@ public class Cliente {
     /**
      * Construtor para criar um cliente com ID sequencial
      * @param nome      Identifica o nome do cliente
-     * @param proximoId Retorna um ID sequencial do cliente
      */
 
     public Cliente(String nome) {
-        this.id = proximoId++;
+        this.id = proximoId;
         this.nome = nome;
+        proximoId++;
     }
 
     /**
@@ -33,5 +33,9 @@ public class Cliente {
      */
     public int getId() {
         return id;
+    }
+
+    public String getNome() {
+        return nome;
     }
 }
