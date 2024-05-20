@@ -8,6 +8,7 @@ import java.util.Optional;
 public class Restaurante {
     private final List<Mesa> mesas;
     private final List<Requisicao> requisicoes = new ArrayList<>();
+    public Cardapio cardapio;
 
     public Restaurante(List<Mesa> mesas) {
         this.mesas = mesas;
@@ -80,4 +81,15 @@ public class Restaurante {
         System.out.println("Lista de espera:");
         this.requisicoes.stream().filter(r -> !r.isAtiva()).forEach(r -> System.out.println(r.getCliente().getNome()));
     }
+
+    public void exibirCardapio(){
+
+        cardapio.exibirItens();
+    }
+
+    public void addProduto(){
+        
+    }
+
+
 }
