@@ -1,6 +1,8 @@
 package letsburn;
 
 import letsburn.model.Cliente;
+import letsburn.model.Comanda;
+import letsburn.model.ItemCardapio;
 import letsburn.model.Mesa;
 import letsburn.model.Restaurante;
 import org.springframework.boot.CommandLineRunner;
@@ -156,6 +158,4 @@ public class App {
     private static void salvaCliente(Cliente cliente){
         listClientes.add(cliente);
     }
-
-
 }
