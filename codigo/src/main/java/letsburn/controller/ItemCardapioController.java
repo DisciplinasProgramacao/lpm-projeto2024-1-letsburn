@@ -1,8 +1,8 @@
 package letsburn.controller;
 
-import letsburn.dto.RequestClientDTO;
-import letsburn.entidades.Cliente;
-import letsburn.repository.ClientRepository;
+import letsburn.dto.ResquestItemDTO;
+import letsburn.entidades.ItemCardapio;
+import letsburn.repository.ItemRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +17,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/ItemCardapio")  // Define a base URL para todos os métodos deste controlador.
-public class ItemCardpioController {
+public class ItemCardapioController {
     @Autowired
-    private ItemRepository ItemRepository;
+    private ItemRepository itemRepository;
 
     /**
      * Cria um novo cardapio com base nos dados fornecidos.
@@ -28,13 +28,13 @@ public class ItemCardpioController {
      * @return Retorna um ResponseEntity com o URI dos Itens criado e status HTTP 201.
      */
     @PostMapping
-    public ResponseEntity<Object> cadastrarItens(@RequestBody RequestItensDTO requestItensDTO) {
-        var ItemCardapioModel = new Itens();
-        BeanUtils.copyProperties(requestItensDTO, ItesModel);
-        ItensRepository.save(ItensCardapioModel);
+    public ResponseEntity<Object> cadastrarItens(@RequestBody ResquestItemDTO requestItensDTO) {
+        var itemCardapioModel = new ItemCardapio();
+        BeanUtils.copyProperties(requestItensDTO, itemCardapioModel);
+        itemRepository.save(itemCardapioModel);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(ItensModel.getId()).toUri();
+                .buildAndExpand(itemCardapioModel.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
@@ -44,8 +44,8 @@ public class ItemCardpioController {
      * @return Lista de itens.
      */
     @GetMapping
-    public List<Itens> listarItens() {
-        return ItensRepository.findAll();
+    public List<ItemCardapio> listarItens() {
+        return itemRepository.findAll();
     }
 
     /**
@@ -55,7 +55,7 @@ public class ItemCardpioController {
      * @return Retorna um ResponseEntity contendo o Item encontrado ou status HTTP 404 se não encontrado.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Item> buscarItens(@PathVariable Long id) {
+    public ResponseEntity<ItemCardapio> buscarItens(@PathVariable Long id) {
         return itemRepository.findById(id)
                 .map(Itens-> ResponseEntity.ok().body(Itens))
                 .orElse(ResponseEntity.notFound().build());
@@ -69,9 +69,9 @@ public class ItemCardpioController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarItemCardapio(@PathVariable Long id) {
-        return ItemRepository.findById(id)
+        return itemRepository.findById(id)
                 .map(item -> {
-                    ItemRepository.delete(item);
+                    itemRepository.delete(item);
                     return ResponseEntity.ok().build();
                 })
                 .orElse(ResponseEntity.notFound().build());
