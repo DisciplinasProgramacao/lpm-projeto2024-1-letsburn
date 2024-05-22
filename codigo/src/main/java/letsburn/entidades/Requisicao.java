@@ -45,6 +45,9 @@ public class Requisicao {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public LocalDateTime getHorarioEntrada() {
         return horarioEntrada;
