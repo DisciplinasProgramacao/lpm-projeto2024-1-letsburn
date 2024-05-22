@@ -55,7 +55,10 @@ public class RequisicaoController {
 
     @PostMapping("/adicionar-item/{id}")
     public Comanda adicionarPedido(@PathVariable Long id, @RequestBody ItemCardapio item) {
-        return requisicaoService.adicionaPedido(id, item);
+        Requisicao requisicao = requisicaoService.buscarRequisicao(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Requisição não encontrada"));
+
+        return requisicaoService.adicionaPedido(requisicao, item);
     }
 
     @PutMapping("/fechar-conta/{id}")

@@ -36,8 +36,7 @@ public class RequisicaoService {
     public Optional<Requisicao> buscarRequisicao(Long id) {
         return requisicaoRepository.findById(id);
     }
-    public Comanda adicionaPedido(Long idComanda, ItemCardapio item){
-       Requisicao requisicao = requisicaoRepository.findByComanda_Id(idComanda);
+    public Comanda adicionaPedido(Requisicao requisicao, ItemCardapio item){
          if(requisicao != null && requisicao.isAtiva()){
               requisicao.getComanda().getPedidos().add(item);
               requisicaoRepository.save(requisicao);
