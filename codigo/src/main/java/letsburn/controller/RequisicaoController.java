@@ -1,16 +1,14 @@
 package letsburn.controller;
 
 import letsburn.dto.RequestRequisicaoDTO;
-import letsburn.entidades.Cliente;
-import letsburn.entidades.Comanda;
-import letsburn.entidades.Mesa;
-import letsburn.entidades.Requisicao;
+import letsburn.entidades.*;
 import letsburn.exception.ResourceNotFoundException;
 import letsburn.service.ClienteService;
 import letsburn.service.ComandaService;
 import letsburn.service.MesaService;
 import letsburn.service.RequisicaoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,8 +53,18 @@ public class RequisicaoController {
         return requisicaoService.buscarRequisicao(id);
     }
 
-    @GetMapping("/fechar-conta/{id}")
-    public void fecharConta(@PathVariable Long id) {
+    @PostMapping("/adicionar-item/{id}")
+    public Comanda adicionarPedido(@PathVariable Long id, @RequestBody ItemCardapio item) {
+        return requisicaoService.adicionaPedido(id, item);
+    }
+
+    @PutMapping("/fechar-conta/{id}")
+    public ResponseEntity<Double> fecharConta(@PathVariable Long id) {
         requisicaoService.fecharConta(id);
+        Optional<Requisicao> requisicaoOpt = requisicaoService.buscarRequisicao(id);
+        if (requisicaoOpt.isPresent()) {
+            return ResponseEntity.ok(requisicaoService.exibirValorPorCliente(requisicaoOpt.get()));
+        }
+        return ResponseEntity.notFound().build();
     }
 }
