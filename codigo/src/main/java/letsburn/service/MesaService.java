@@ -12,6 +12,6 @@ public class MesaService {
     MesaRepository mesaRepository;
 
     public Optional<Mesa> buscarMesa(Long id) {
-        mesaRepository.findById(id);
+        return  mesaRepository.findById(id);
     }
 }

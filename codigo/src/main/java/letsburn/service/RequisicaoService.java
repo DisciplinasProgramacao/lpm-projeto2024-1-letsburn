@@ -1,5 +1,7 @@
 package letsburn.service;
 
+import letsburn.entidades.Comanda;
+import letsburn.entidades.ItemCardapio;
 import letsburn.entidades.Requisicao;
 import letsburn.repository.RequisicaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ public class RequisicaoService {
 
     @Autowired
     private RequisicaoRepository requisicaoRepository;
+
+    @Autowired
+    ComandaService comandaService;
 
     public Requisicao criarRequisicao(Requisicao requisicao) {
         if (requisicao.getQtdPessoas() <= 0) {
@@ -31,6 +36,14 @@ public class RequisicaoService {
     public Optional<Requisicao> buscarRequisicao(Long id) {
         return requisicaoRepository.findById(id);
     }
+    public Comanda adicionaPedido(Requisicao requisicao, ItemCardapio item){
+         if(requisicao != null && requisicao.isAtiva()){
+              requisicao.getComanda().getPedidos().add(item);
+              requisicaoRepository.save(requisicao);
+                return requisicao.getComanda();
+         }
+            return null;
+    }
 
     public void fecharConta(Long id) {
         Optional<Requisicao> requisicaoOptional = requisicaoRepository.findById(id);
@@ -42,9 +55,7 @@ public class RequisicaoService {
         }
     }
 
-
     public double exibirValorPorCliente(Requisicao requisicao) {
-        // Implementação do cálculo do valor por cliente aqui
-        return 0;
+        return comandaService.calcularValorPorCliente(requisicao.getComanda(), requisicao.getQtdPessoas());
     }
 }
