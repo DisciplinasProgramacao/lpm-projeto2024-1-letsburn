@@ -10,6 +10,7 @@ public class Restaurante {
     private final List<Requisicao> requisicoes = new ArrayList<>();
     public Cardapio cardapio;
 
+
     public Restaurante(List<Mesa> mesas) {
         this.mesas = mesas;
     }
@@ -87,8 +88,14 @@ public class Restaurante {
         cardapio.exibirItens();
     }
 
-    public void addProduto(){
-        
+    public void adicionarPedidoRequisicao(Cliente cliente, ItemCardapio item) {
+        Optional<Requisicao> requisicaoOptional = buscarRequisicaoPorCliente(cliente);
+        if (requisicaoOptional.isEmpty()) {
+            throw new RuntimeException("Requisicao invalida");
+        }
+
+        Requisicao requisicao = requisicaoOptional.get();
+        requisicao.adicionarPedidoComanda(item);
     }
 
 

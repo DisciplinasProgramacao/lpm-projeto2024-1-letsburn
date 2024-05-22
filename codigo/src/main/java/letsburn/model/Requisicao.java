@@ -13,6 +13,7 @@ public class Requisicao {
     private Mesa mesa;
     private Cliente cliente;
     private Comanda comanda;
+    private ItemCardapio itemDoCardapio;
 
     static {
         proximoId = 1;
@@ -116,6 +117,10 @@ public class Requisicao {
 
     public void atualizarStatus(boolean status){
         this.ativa = status;
+    }
+
+    public void adicionarPedidoComanda(ItemCardapio itemDoCardapio){
+        comanda.adicionarPedido(itemDoCardapio);
     }
 }
 

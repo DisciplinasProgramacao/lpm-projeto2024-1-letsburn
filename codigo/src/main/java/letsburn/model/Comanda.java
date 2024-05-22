@@ -15,11 +15,17 @@ public class Comanda {
         return aplicarTaxa(precoTotal);
     }
 
-    public double calcultarTotalPorPessoa(int numeroPessoas) {
+    public double calcularTotalPorPessoa(int numeroPessoas) {
         return calcularTotal() / numeroPessoas;
     }
 
-    private double aplicarTaxa(Double precoTotal) {
+    private double aplicarTaxa(double precoTotal) {
         return precoTotal + (precoTotal * taxa);
     }
+    
+    public void adicionarPedido(ItemCardapio item) {
+        pedidos.add(item);
+        System.out.println("Item " + item.getNome() + " adicionado à comanda.");
+    }
+
 }
