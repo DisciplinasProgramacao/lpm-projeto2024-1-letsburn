@@ -24,7 +24,6 @@ public class RestauranteController {
 
     @PutMapping("/fazer-pedido")
     public ResponseEntity<Comanda> fazerPedido(@RequestBody RequestPedido requestPedido) {
-
         return ResponseEntity.ok(restauranteService.fazerPedido(requestPedido));
     }
 
