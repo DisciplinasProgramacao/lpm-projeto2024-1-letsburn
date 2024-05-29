@@ -3,6 +3,8 @@ package com.api.letsburn_restaurante.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "comandas")
 public class Comanda {
@@ -13,11 +15,8 @@ public class Comanda {
     private static final double taxa = 0.10;
 
     @ManyToMany
-    @JoinTable(
-            name = "comanda_item_cardapio",
-            joinColumns = @JoinColumn(name = "comanda_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_cardapio_id")
-    )
+    @JsonIgnore
+    @JoinTable(name = "comanda_item_cardapio", joinColumns = @JoinColumn(name = "comanda_id"), inverseJoinColumns = @JoinColumn(name = "item_cardapio_id"))
     private List<ItemCardapio> pedidos;
 
     public Comanda() {
@@ -39,7 +38,7 @@ public class Comanda {
         this.pedidos = pedidos;
     }
 
-    public void adicionarPedido(ItemCardapio item){
+    public void adicionarPedido(ItemCardapio item) {
         this.pedidos.add(item);
     }
 }

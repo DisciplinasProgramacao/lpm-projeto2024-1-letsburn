@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
@@ -41,6 +42,7 @@ public class RestauranteService {
     public void init() {
         criarMesas();
     }
+
     public Long atenderCliente(RequestAtenderClienteDTO atenderClienteDTO) {
         System.out.println("Atendendo cliente...");
         if (atenderClienteDTO.qtdPessoas() > 8) {
@@ -51,7 +53,8 @@ public class RestauranteService {
         clienteService.cadastrarCliente(cliente);
 
         Optional<Mesa> optionalMesa = mesaService.buscarMelhorMesaDisponivel(atenderClienteDTO.qtdPessoas());
-        Requisicao requisicao = optionalMesa.map(mesa -> new Requisicao(atenderClienteDTO.qtdPessoas(), mesa, cliente, true))
+        Requisicao requisicao = optionalMesa
+                .map(mesa -> new Requisicao(atenderClienteDTO.qtdPessoas(), mesa, cliente, true))
                 .orElseGet(() -> new Requisicao(atenderClienteDTO.qtdPessoas(), null, cliente, false));
 
         if (!optionalMesa.isPresent()) {
@@ -86,6 +89,10 @@ public class RestauranteService {
 
         verificarListaDeEspera();
         return new ResponseComanda(comanda.getId(), valorTotal, qtdPessoas, valorPorCliente);
+    }
+
+    public List<Requisicao> requisicoes(Boolean ativa) {
+        return requisicaoService.listarRequisicoes(ativa);
     }
 
     private void verificarListaDeEspera() {
