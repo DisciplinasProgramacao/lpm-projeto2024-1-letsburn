@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface ItemRepository extends JpaRepository<ItemCardapio, Long> {
 
     boolean existsByNome(String nome);
+
+    ItemCardapio findByNome(String nome);
 }

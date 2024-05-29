@@ -1,7 +1,9 @@
 package com.api.letsburn_restaurante.controller;
 
 import com.api.letsburn_restaurante.dto.RequestAtenderClienteDTO;
+import com.api.letsburn_restaurante.dto.RequestPedido;
 import com.api.letsburn_restaurante.dto.ResponseComanda;
+import com.api.letsburn_restaurante.model.Comanda;
 import com.api.letsburn_restaurante.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +22,10 @@ public class RestauranteController {
         return ResponseEntity.ok(idAtendimento);
     }
 
-    @PutMapping("/fazer-pedido/{id}")
-    public void fazerPedido(@PathVariable Long id, @RequestParam Long idItemCardapio) {
-        restauranteService.fazerPedido(id, idItemCardapio);
+    @PutMapping("/fazer-pedido")
+    public ResponseEntity<Comanda> fazerPedido(@RequestBody RequestPedido requestPedido) {
+
+        return ResponseEntity.ok(restauranteService.fazerPedido(requestPedido));
     }
 
     @PutMapping("/fechar-conta/{id}")

@@ -1,6 +1,7 @@
 package com.api.letsburn_restaurante.service;
 
 import com.api.letsburn_restaurante.dto.RequestAtenderClienteDTO;
+import com.api.letsburn_restaurante.dto.RequestPedido;
 import com.api.letsburn_restaurante.dto.ResponseComanda;
 import com.api.letsburn_restaurante.exception.NumeroDePessoasExcedidoException;
 import com.api.letsburn_restaurante.model.Cliente;
@@ -63,11 +64,10 @@ public class RestauranteService {
         return requisicao.getId();
     }
 
-    public void fazerPedido(Long id, Long idItemCardapio) {
-        Requisicao requisicao = requisicaoService.buscarRequisicao(id).get();
+    public Comanda fazerPedido(RequestPedido requestPedido) {
+        Requisicao requisicao = requisicaoService.buscarRequisicao(requestPedido.idRequisicao()).get();
 
-        Comanda comanda = requisicaoService.adicionaPedido(requisicao, itemRepository.findById(idItemCardapio).get());
-        System.out.println("Pedido adicionado à comanda.");
+        return requisicaoService.adicionaPedido(requisicao, itemRepository.findByNome(requestPedido.nome()));
     }
 
     private void adicionarAListaDeEspera(Requisicao requisicao) {
