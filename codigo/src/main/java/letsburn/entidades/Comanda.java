@@ -25,11 +25,19 @@ public class Comanda {
         this.pedidos = pedidos;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public List<ItemCardapio> getPedidos() {
         return pedidos;
     }
 
     public void setPedidos(List<ItemCardapio> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public void adicionarPedido(ItemCardapio item){
+        pedidos.add(item);
     }
 }

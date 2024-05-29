@@ -16,8 +16,7 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(Long id, String nome) {
-        this.id = id;
+    public Cliente(String nome) {
         this.nome = nome;
     }
 

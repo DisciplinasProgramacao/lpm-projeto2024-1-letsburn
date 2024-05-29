@@ -14,4 +14,8 @@ public class ClienteService {
     public Optional<Cliente> buscarCliente(Long id) {
         return clientRepository.findById(id);
     }
+
+    public Cliente cadastrarCliente(Cliente cliente) {
+        return clientRepository.save(cliente);
+    }
 }

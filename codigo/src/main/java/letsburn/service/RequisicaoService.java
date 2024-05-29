@@ -26,9 +26,15 @@ public class RequisicaoService {
         } else if (requisicao.getQtdPessoas() > 8) {
             requisicao.setQtdPessoas(8);
         }
+
+        requisicao.getMesa().setOcupada(true);
+
         return requisicaoRepository.save(requisicao);
     }
 
+    public void atualizarRequisicao(Requisicao requisicao) {
+        requisicaoRepository.save(requisicao);
+    }
     public List<Requisicao> listarRequisicoes() {
         return requisicaoRepository.findAll();
     }
@@ -38,11 +44,11 @@ public class RequisicaoService {
     }
     public Comanda adicionaPedido(Requisicao requisicao, ItemCardapio item){
          if(requisicao != null && requisicao.isAtiva()){
-              requisicao.getComanda().getPedidos().add(item);
+              requisicao.adicionarPedido(item);
               requisicaoRepository.save(requisicao);
-                return requisicao.getComanda();
+              return requisicao.getComanda();
          }
-            return null;
+         return null;
     }
 
     public void fecharConta(Long id) {
@@ -51,6 +57,7 @@ public class RequisicaoService {
             Requisicao requisicao = requisicaoOptional.get();
             requisicao.setAtiva(false);
             requisicao.setHorarioSaida(LocalDateTime.now());
+            requisicao.getMesa().setOcupada(false);
             requisicaoRepository.save(requisicao);
         }
     }

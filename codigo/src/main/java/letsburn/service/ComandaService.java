@@ -49,11 +49,11 @@ public class ComandaService {
 
 
     public double calcularValorTotal(Comanda comanda) {
-        return comanda.getPedidos().stream().mapToDouble(ItemCardapio::getPreco).sum();
+        return aplicarTaxa(comanda.getPedidos().stream().mapToDouble(ItemCardapio::getPreco).sum());
     }
 
     public double calcularValorPorCliente(Comanda comanda, int numPessoas) {
-        double valorTotal = aplicarTaxa(calcularValorTotal(comanda));
+        double valorTotal = calcularValorTotal(comanda);
         return valorTotal / numPessoas;
     }
 

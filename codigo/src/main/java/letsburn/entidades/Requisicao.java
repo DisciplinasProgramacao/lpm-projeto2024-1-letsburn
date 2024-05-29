@@ -32,13 +32,13 @@ public class Requisicao {
     public Requisicao() {
     }
 
-    public Requisicao(int qtdPessoas, Mesa mesa, Cliente cliente, Comanda comanda) {
+    public Requisicao(int qtdPessoas, Mesa mesa, Cliente cliente, boolean ativa) {
         this.horarioEntrada = LocalDateTime.now();
         this.qtdPessoas = qtdPessoas;
-        this.ativa = true;
         this.mesa = mesa;
         this.cliente = cliente;
-        this.comanda = comanda;
+        this.ativa = ativa;
+        this.comanda = new Comanda();
     }
 
     public Long getId() {
@@ -100,5 +100,12 @@ public class Requisicao {
 
     public void setComanda(Comanda comanda) {
         this.comanda = comanda;
+    }
+
+    public void adicionarPedido(ItemCardapio item){
+       if (comanda == null)
+           comanda = new Comanda();
+
+       comanda.adicionarPedido(item);
     }
 }

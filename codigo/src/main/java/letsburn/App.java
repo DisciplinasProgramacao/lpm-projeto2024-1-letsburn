@@ -3,6 +3,9 @@ package letsburn;
 import letsburn.model.Cliente;
 import letsburn.model.Mesa;
 import letsburn.model.Restaurante;
+import letsburn.service.MesaService;
+import letsburn.service.RestauranteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,6 +23,9 @@ public class App {
     private static Restaurante restauranteLetsBurn = null;
     private static List<Cliente> listClientes = new ArrayList<>();
 
+    @Autowired
+    private static MesaService mesaService;
+
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
@@ -27,11 +33,9 @@ public class App {
     @Bean
     public static CommandLineRunner initialiazer() {
         return args -> {
-            List<Mesa> mesas = new ArrayList<>();
-            mesas.addAll(criaMesas(4, 4));
-            mesas.addAll(criaMesas(4, 6));
-            mesas.addAll(criaMesas(2, 8));
-            restauranteLetsBurn = new Restaurante(mesas);
+            criaMesas(4, 4);
+            criaMesas(4, 6);
+            criaMesas(2, 8);
 
             do {
                 MenuPrincipal();
@@ -145,12 +149,10 @@ public class App {
     //		4 - 4 pessoas
     //		4 - 6 pessoas
     //		2 - 8 pessoas
-    private static List<Mesa> criaMesas(int qtdMesas, int pessoas){
-        List<Mesa> mesas = new ArrayList<>();
+    private static void criaMesas(int qtdMesas, int pessoas){
         for (int i = 0; i < qtdMesas; i++) {
-            mesas.add(new Mesa(pessoas));
+            mesaService.criarMesa(new letsburn.entidades.Mesa(pessoas));
         }
-        return mesas;
     }
 
     private static void salvaCliente(Cliente cliente){
