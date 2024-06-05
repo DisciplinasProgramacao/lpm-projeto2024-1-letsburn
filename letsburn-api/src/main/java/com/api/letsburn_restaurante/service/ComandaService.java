@@ -12,8 +12,10 @@ import java.util.Optional;
 @Service
 public class ComandaService {
 
-    @Autowired
-    private ComandaRepository comandaRepository;
+    private final ComandaRepository comandaRepository;
+    public ComandaService(@Autowired ComandaRepository comandaRepository) {
+        this.comandaRepository = comandaRepository;
+    }
 
     public Comanda criarComanda(Comanda comanda) {
         return comandaRepository.save(comanda);
