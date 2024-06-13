@@ -1,6 +1,7 @@
 package com.api.letsburn_restaurante.service;
 
 import com.api.letsburn_restaurante.model.Comanda;
+import com.api.letsburn_restaurante.model.Item;
 import com.api.letsburn_restaurante.model.ItemCardapio;
 import com.api.letsburn_restaurante.repository.ComandaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class ComandaService {
 
 
     public double calcularValorTotal(Comanda comanda) {
-        return aplicarTaxa(comanda.getPedidos().stream().mapToDouble(ItemCardapio::getPreco).sum());
+        return aplicarTaxa(comanda.getPedidos().stream().mapToDouble(Item::getPreco).sum());
     }
 
     public double calcularValorPorCliente(Comanda comanda, int numPessoas) {
