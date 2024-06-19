@@ -17,9 +17,6 @@ public class RequisicaoService {
     @Autowired
     private RequisicaoRepository requisicaoRepository;
 
-    @Autowired
-    ComandaService comandaService;
-
     public Requisicao criarRequisicao(Requisicao requisicao) {
         if (requisicao.getQtdPessoas() <= 0) {
             requisicao.setQtdPessoas(1);
@@ -70,7 +67,4 @@ public class RequisicaoService {
         }
     }
 
-    public double exibirValorPorCliente(Requisicao requisicao) {
-        return comandaService.calcularValorPorCliente(requisicao.getComanda(), requisicao.getQtdPessoas());
-    }
 }

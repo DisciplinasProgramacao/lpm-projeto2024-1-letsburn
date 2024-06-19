@@ -31,9 +31,6 @@ public class RestauranteService {
     private RequisicaoService requisicaoService;
 
     @Autowired
-    private ComandaService comandaService;
-
-    @Autowired
     private ItemRepository itemRepository;
 
     private final Queue<Requisicao> listaDeEspera = new LinkedList<>();
@@ -83,9 +80,9 @@ public class RestauranteService {
         Requisicao requisicao = requisicaoService.buscarRequisicao(id).get();
 
         Comanda comanda = requisicao.getComanda();
-        double valorTotal = comandaService.calcularValorTotal(comanda);
+        double valorTotal = comanda.calcularValorTotal();
         int qtdPessoas = requisicao.getQtdPessoas();
-        double valorPorCliente = comandaService.calcularValorPorCliente(comanda, qtdPessoas);
+        double valorPorCliente = comanda.calcularValorPorCliente(qtdPessoas);
 
         verificarListaDeEspera();
         return new ResponseComanda(comanda.getId(), valorTotal, qtdPessoas, valorPorCliente);

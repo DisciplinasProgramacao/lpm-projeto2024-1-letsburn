@@ -39,4 +39,21 @@ public class Comanda {
     public void adicionarPedido(ItemCardapio item) {
         this.pedidos.add(item);
     }
+
+    public void removerPedido(ItemCardapio item) {
+        this.pedidos.remove(item);
+    }
+
+    public double calcularValorTotal() {
+        return aplicarTaxa(this.getPedidos().stream().mapToDouble(Item::getPreco).sum());
+    }
+
+    public double calcularValorPorCliente(int numPessoas) {
+        double valorTotal = calcularValorTotal();
+        return valorTotal / numPessoas;
+    }
+
+    public double aplicarTaxa(Double precoTotal) {
+        return precoTotal + (precoTotal * 0.10);
+    }
 }
