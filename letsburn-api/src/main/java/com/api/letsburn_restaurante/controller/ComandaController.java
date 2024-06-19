@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.letsburn_restaurante.model.Comanda;
 import com.api.letsburn_restaurante.model.ItemCardapio;
 import com.api.letsburn_restaurante.repository.ComandaRepository;
+import com.api.letsburn_restaurante.repository.ItemRepository;
 
 @RestController
 @RequestMapping("/comandas")
@@ -22,6 +23,9 @@ public class ComandaController {
     @Autowired
     private ComandaRepository comandaRepository;
 
+    @Autowired
+    private ItemRepository itemRepository;
+
     @PostMapping
     public ResponseEntity<Comanda> criarComanda(@RequestBody Comanda comanda) {
         Comanda novaComanda = comandaRepository.save(comanda);
@@ -29,13 +33,18 @@ public class ComandaController {
     }
 
     @PostMapping("/{id}/adicionar")
-    public ResponseEntity<Comanda> adicionarProduto(@PathVariable Long id, @RequestBody ItemCardapio item) {
+    public ResponseEntity<Comanda> adicionarProduto(@PathVariable Long id, @RequestBody String itemNome) {
         Optional<Comanda> comandaOptional = comandaRepository.findById(id);
         if (comandaOptional.isPresent()) {
             Comanda comanda = comandaOptional.get();
-            comanda.adicionarPedido(item);
-            comandaRepository.save(comanda);
-            return ResponseEntity.ok(comanda);
+            Optional<ItemCardapio> itemOptional = itemRepository.findByNome(itemNome);
+            if (itemOptional.isPresent()) {
+                comanda.adicionarPedido(itemOptional.get());
+                comandaRepository.save(comanda);
+                return ResponseEntity.ok(comanda);
+            } else {
+                return ResponseEntity.badRequest().body(null);
+            }
         } else {
             return ResponseEntity.notFound().build();
         }
