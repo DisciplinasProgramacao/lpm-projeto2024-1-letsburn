@@ -1,6 +1,7 @@
 package com.api.letsburn_restaurante.service;
 
 import com.api.letsburn_restaurante.dto.RequestAtenderClienteDTO;
+import com.api.letsburn_restaurante.dto.RequestPedido;
 import com.api.letsburn_restaurante.dto.ResponseComanda;
 import com.api.letsburn_restaurante.exception.NumeroDePessoasExcedidoException;
 import com.api.letsburn_restaurante.model.Cliente;
@@ -17,6 +18,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
+/**
+ * Serviço responsável por gerenciar as operações do restaurante.
+ */
 @Service
 public class RestauranteService {
 
@@ -37,6 +41,9 @@ public class RestauranteService {
 
     private final Queue<Requisicao> listaDeEspera = new LinkedList<>();
 
+    /**
+     * Inicializa o serviço criando mesas no restaurante.
+     */
     @PostConstruct
     public void init() {
         criarMesas();
@@ -44,7 +51,25 @@ public class RestauranteService {
 
     public Long atenderCliente(RequestAtenderClienteDTO atenderClienteDTO) {
         System.out.println("Atendendo cliente...");
-        if (atenderClienteDTO.qtdPessoas() > 8) {
+        validarNumeroDePessoas(atenderClienteDTO.qtdPessoas());
+
+        Cliente cliente = criarCliente(atenderClienteDTO.idCliente(), atenderClienteDTO.nome());
+        Optional<Mesa> optionalMesa = mesaService.buscarMelhorMesaDisponivel(atenderClienteDTO.qtdPessoas());
+
+        Requisicao requisicao = criarRequisicao(atenderClienteDTO.qtdPessoas(), optionalMesa, cliente);
+        processarRequisicao(requisicao, optionalMesa);
+
+        return requisicao.getId();
+    }
+
+    /**
+     * Valida se o número de pessoas não excede o limite permitido.
+     *
+     * @param qtdPessoas Número de pessoas.
+     * @throws NumeroDePessoasExcedidoException Se o número de pessoas exceder o limite permitido.
+     */
+    private void validarNumeroDePessoas(int qtdPessoas) {
+        if (qtdPessoas > 8) {
             throw new NumeroDePessoasExcedidoException("O número de pessoas não pode ser maior que 8.");
         }
 
@@ -56,9 +81,14 @@ public class RestauranteService {
                 .map(mesa -> new Requisicao(atenderClienteDTO.qtdPessoas(), mesa, cliente, true))
                 .orElseGet(() -> new Requisicao(atenderClienteDTO.qtdPessoas(), null, cliente, false));
 
-        if (!optionalMesa.isPresent()) {
-            adicionarAListaDeEspera(requisicao);
-        } else {
+    /**
+     * Processa a requisição, adicionando-a à lista de espera se necessário.
+     *
+     * @param requisicao Requisição a ser processada.
+     * @param optionalMesa Mesa disponível (se houver).
+     */
+    private void processarRequisicao(Requisicao requisicao, Optional<Mesa> optionalMesa) {
+        if (optionalMesa.isPresent()) {
             requisicaoService.criarRequisicao(requisicao);
         }
 
@@ -73,12 +103,16 @@ public class RestauranteService {
 
     private void adicionarAListaDeEspera(Requisicao requisicao) {
         listaDeEspera.add(requisicao);
-        System.out.println("Requisição adicionada à lista de espera.");
     }
 
+    /**
+     * Fecha a conta de uma requisição, calculando o valor total e valor por cliente.
+     *
+     * @param id ID da requisição.
+     * @return Resposta da comanda contendo os detalhes do fechamento.
+     */
     public ResponseComanda fecharConta(Long id) {
-        requisicaoService.fecharConta(id);
-        Requisicao requisicao = requisicaoService.buscarRequisicao(id).get();
+        Requisicao requisicao = requisicaoService.fecharConta(id);
 
         Comanda comanda = requisicao.getComanda();
         double valorTotal = comandaService.calcularValorTotal(comanda);
@@ -111,14 +145,23 @@ public class RestauranteService {
         }
     }
 
-    public void criarMesas() {
+    /**
+     * Cria mesas no restaurante se não houver nenhuma mesa existente.
+     */
+    private void criarMesas() {
         if (mesaService.contarMesas() == 0) {
-            adicionarMesas(4, 4); // 4 mesas para 4 pessoas
-            adicionarMesas(4, 6); // 4 mesas para 6 pessoas
-            adicionarMesas(2, 8); // 2 mesas para 8 pessoas
+            adicionarMesas(4, 4);
+            adicionarMesas(4, 6);
+            adicionarMesas(2, 8);
         }
     }
 
+    /**
+     * Adiciona mesas ao restaurante.
+     *
+     * @param quantidade Quantidade de mesas.
+     * @param capacidade Capacidade de cada mesa.
+     */
     private void adicionarMesas(int quantidade, int capacidade) {
         for (int i = 0; i < quantidade; i++) {
             Mesa mesa = new Mesa(capacidade);

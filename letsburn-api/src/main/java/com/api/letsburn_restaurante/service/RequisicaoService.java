@@ -43,6 +43,8 @@ public class RequisicaoService {
             Requisicao requisicao = requisicaoOptional.get();
             requisicao.fecharConta();
             requisicaoRepository.save(requisicao);
+            return requisicaoOptional.get();
         }
+        return null;
     }
 }
