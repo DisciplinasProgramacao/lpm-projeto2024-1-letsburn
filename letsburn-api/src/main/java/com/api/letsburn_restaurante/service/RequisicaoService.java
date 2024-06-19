@@ -56,7 +56,9 @@ public class RequisicaoService {
         return null;
     }
 
-    public void fecharConta(Long id) {
+    //todo
+    // add exption quando nao encontrar requisicapo
+    public Requisicao fecharConta(Long id) {
         Optional<Requisicao> requisicaoOptional = requisicaoRepository.findById(id);
         if (requisicaoOptional.isPresent()) {
             Requisicao requisicao = requisicaoOptional.get();
@@ -64,7 +66,9 @@ public class RequisicaoService {
             requisicao.setHorarioSaida(LocalDateTime.now());
             requisicao.getMesa().setOcupada(false);
             requisicaoRepository.save(requisicao);
+            return requisicaoOptional.get();
         }
+        return null;
     }
 
 }
