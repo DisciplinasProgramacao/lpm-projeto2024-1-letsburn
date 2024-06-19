@@ -1,0 +1,78 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "restaurante_letsburn",
+    "collectionId": "824b9aa7-a7ba-4aa4-b7a8-3924e32de0e6",
+    "dateExported": "2024-05-29T23:43:47.635Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "61983b8c-ee24-40a4-804e-69e74eeac67b",
+            "colId": "824b9aa7-a7ba-4aa4-b7a8-3924e32de0e6",
+            "containerId": "",
+            "name": "restaurante/atender-cliente",
+            "url": "http://localhost:8080/restaurante/atender-cliente",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-05-29T22:49:43.471Z",
+            "modified": "2024-05-29T22:49:43.471Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n   \"nome\": \"Nome\",\n   \"qtdPessoas\": 5\n}\n",
+                "form": []
+            }
+        },
+        {
+            "_id": "49d9aa03-1170-4111-aec9-98280e0df183",
+            "colId": "824b9aa7-a7ba-4aa4-b7a8-3924e32de0e6",
+            "containerId": "",
+            "name": "restaurante/fechar-conta",
+            "url": "http://localhost:8080/restaurante/fechar-conta/1",
+            "method": "PUT",
+            "sortNum": 20000,
+            "created": "2024-05-29T22:49:49.380Z",
+            "modified": "2024-05-29T22:52:47.852Z",
+            "headers": []
+        },
+        {
+            "_id": "937040d1-0dc5-44a5-b7c6-9f5cadbea48a",
+            "colId": "824b9aa7-a7ba-4aa4-b7a8-3924e32de0e6",
+            "containerId": "",
+            "name": "restaurante/requisicoes",
+            "url": "http://localhost:8080/restaurante/requisicoes?ativa",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-05-29T23:03:46.904Z",
+            "modified": "2024-05-29T23:42:57.445Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "ativa",
+                    "value": "",
+                    "isPath": false
+                }
+            ]
+        },
+        {
+            "_id": "54cefdfd-21a8-40f4-bcb7-38d498ac1c46",
+            "colId": "824b9aa7-a7ba-4aa4-b7a8-3924e32de0e6",
+            "containerId": "",
+            "name": "restaurante/fazer-pedido",
+            "url": "http://localhost:8080/restaurante/fazer-pedido/1?idItemCardapio=1",
+            "method": "PUT",
+            "sortNum": 30000,
+            "created": "2024-05-29T22:52:10.699Z",
+            "modified": "2024-05-29T22:52:50.934Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "idItemCardapio",
+                    "value": "1",
+                    "isPath": false
+                }
+            ]
+        }
+    ],
+    "ref": "Hw2JtQ-mWt5vj_cbIGjnQHyej1QAwlTmMLDka9e1E0R7t9kaHkQkbzaaAb9f5_xLb4GFpd5lBfLvfyBNbbb8Ag"
+}

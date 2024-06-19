@@ -17,9 +17,6 @@ public class RequisicaoService {
     @Autowired
     private RequisicaoRepository requisicaoRepository;
 
-    @Autowired
-    ComandaService comandaService;
-
     public Requisicao criarRequisicao(Requisicao requisicao) {
         if (requisicao.getQtdPessoas() <= 0) {
             requisicao.setQtdPessoas(1);
@@ -35,21 +32,28 @@ public class RequisicaoService {
     public void atualizarRequisicao(Requisicao requisicao) {
         requisicaoRepository.save(requisicao);
     }
-    public List<Requisicao> listarRequisicoes() {
-        return requisicaoRepository.findAll();
+
+    public List<Requisicao> listarRequisicoes(Boolean ativa) {
+        if (ativa == null) {
+            return requisicaoRepository.findAll();
+        }
+        if (ativa == true) {
+            return requisicaoRepository.findAllByAtivaTrue();
+        }
+        return requisicaoRepository.findAllByAtivaFalse();
     }
 
     public Optional<Requisicao> buscarRequisicao(Long id) {
         return requisicaoRepository.findById(id);
     }
 
-    public Comanda adicionaPedido(Requisicao requisicao, ItemCardapio item){
-         if(requisicao != null && requisicao.isAtiva()){
-              requisicao.adicionarPedido(item);
-              requisicaoRepository.save(requisicao);
-              return requisicao.getComanda();
-         }
-         return null;
+    public Comanda adicionaPedido(Requisicao requisicao, ItemCardapio item) {
+        if (requisicao != null && requisicao.isAtiva()) {
+            requisicao.adicionarPedido(item);
+            requisicaoRepository.save(requisicao);
+            return requisicao.getComanda();
+        }
+        return null;
     }
 
     //todo
@@ -67,7 +71,4 @@ public class RequisicaoService {
         return null;
     }
 
-    public double exibirValorPorCliente(Requisicao requisicao) {
-        return comandaService.calcularValorPorCliente(requisicao.getComanda(), requisicao.getQtdPessoas());
-    }
 }

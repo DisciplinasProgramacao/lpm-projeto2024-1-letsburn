@@ -3,6 +3,8 @@ package com.api.letsburn_restaurante.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "comandas")
 public class Comanda {
@@ -10,14 +12,9 @@ public class Comanda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private static final double taxa = 0.10;
-
     @ManyToMany
-    @JoinTable(
-            name = "comanda_item_cardapio",
-            joinColumns = @JoinColumn(name = "comanda_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_cardapio_id")
-    )
+    @JsonIgnore
+    @JoinTable(name = "comanda_item_cardapio", joinColumns = @JoinColumn(name = "comanda_id"), inverseJoinColumns = @JoinColumn(name = "item_cardapio_id"))
     private List<ItemCardapio> pedidos;
 
     public Comanda() {
@@ -39,7 +36,24 @@ public class Comanda {
         this.pedidos = pedidos;
     }
 
-    public void adicionarPedido(ItemCardapio item){
+    public void adicionarPedido(ItemCardapio item) {
         this.pedidos.add(item);
+    }
+
+    public void removerPedido(ItemCardapio item) {
+        this.pedidos.remove(item);
+    }
+
+    public double calcularValorTotal() {
+        return aplicarTaxa(this.getPedidos().stream().mapToDouble(Item::getPreco).sum());
+    }
+
+    public double calcularValorPorCliente(int numPessoas) {
+        double valorTotal = calcularValorTotal();
+        return valorTotal / numPessoas;
+    }
+
+    public double aplicarTaxa(Double precoTotal) {
+        return precoTotal + (precoTotal * 0.10);
     }
 }

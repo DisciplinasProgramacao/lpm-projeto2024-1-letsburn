@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
@@ -33,9 +34,6 @@ public class RestauranteService {
     private RequisicaoService requisicaoService;
 
     @Autowired
-    private ComandaService comandaService;
-
-    @Autowired
     private ItemRepository itemRepository;
 
     private final Queue<Requisicao> listaDeEspera = new LinkedList<>();
@@ -48,13 +46,6 @@ public class RestauranteService {
         criarMesas();
     }
 
-    /**
-     * Atende um cliente baseado nas informações fornecidas.
-     *
-     * @param atenderClienteDTO Informações para atender o cliente.
-     * @return ID da requisição criada.
-     * @throws NumeroDePessoasExcedidoException Se o número de pessoas exceder o limite permitido.
-     */
     public Long atenderCliente(RequestAtenderClienteDTO atenderClienteDTO) {
         System.out.println("Atendendo cliente...");
         validarNumeroDePessoas(atenderClienteDTO.qtdPessoas());
@@ -78,38 +69,14 @@ public class RestauranteService {
         if (qtdPessoas > 8) {
             throw new NumeroDePessoasExcedidoException("O número de pessoas não pode ser maior que 8.");
         }
-    }
 
-    /**
-     * Cria um cliente ou retorna um existente baseado no ID fornecido.
-     *
-     * @param idCliente ID do cliente.
-     * @param nome Nome do cliente.
-     * @return Cliente criado ou existente.
-     */
-    private Cliente criarCliente(Long idCliente, String nome) {
-        Optional<Cliente> optionalCliente = clienteService.buscarCliente(idCliente);
-        if (!optionalCliente.isPresent()) {
-            Cliente cliente = new Cliente(nome);
-            clienteService.cadastrarCliente(cliente);
-            return cliente;
-        }
-        return optionalCliente.get();
-    }
+        Cliente cliente = new Cliente(atenderClienteDTO.nome());
+        clienteService.cadastrarCliente(cliente);
 
-    /**
-     * Cria uma requisição baseada na disponibilidade de mesas e informações do cliente.
-     *
-     * @param qtdPessoas Número de pessoas.
-     * @param optionalMesa Mesa disponível (se houver).
-     * @param cliente Cliente.
-     * @return Requisição criada.
-     */
-    private Requisicao criarRequisicao(int qtdPessoas, Optional<Mesa> optionalMesa, Cliente cliente) {
-        return optionalMesa
-                .map(mesa -> new Requisicao(qtdPessoas, mesa, cliente, true))
-                .orElseGet(() -> new Requisicao(qtdPessoas, null, cliente, false));
-    }
+        Optional<Mesa> optionalMesa = mesaService.buscarMelhorMesaDisponivel(atenderClienteDTO.qtdPessoas());
+        Requisicao requisicao = optionalMesa
+                .map(mesa -> new Requisicao(atenderClienteDTO.qtdPessoas(), mesa, cliente, true))
+                .orElseGet(() -> new Requisicao(atenderClienteDTO.qtdPessoas(), null, cliente, false));
 
     /**
      * Processa a requisição, adicionando-a à lista de espera se necessário.
@@ -159,17 +126,18 @@ public class RestauranteService {
         Requisicao requisicao = requisicaoService.fecharConta(id);
 
         Comanda comanda = requisicao.getComanda();
-        double valorTotal = comandaService.calcularValorTotal(comanda);
+        double valorTotal = comanda.calcularValorTotal();
         int qtdPessoas = requisicao.getQtdPessoas();
-        double valorPorCliente = comandaService.calcularValorPorCliente(comanda, qtdPessoas);
+        double valorPorCliente = comanda.calcularValorPorCliente(qtdPessoas);
 
         verificarListaDeEspera();
         return new ResponseComanda(comanda.getId(), valorTotal, qtdPessoas, valorPorCliente);
     }
 
-    /**
-     * Verifica a lista de espera e processa requisições caso mesas fiquem disponíveis.
-     */
+    public List<Requisicao> requisicoes(Boolean ativa) {
+        return requisicaoService.listarRequisicoes(ativa);
+    }
+
     private void verificarListaDeEspera() {
         while (!listaDeEspera.isEmpty()) {
             Requisicao requisicao = listaDeEspera.peek();
