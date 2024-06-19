@@ -12,7 +12,6 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -68,8 +67,7 @@ public class RestauranteService {
 
     public void fazerPedido(Long id, Long idItemCardapio) {
         Requisicao requisicao = requisicaoService.buscarRequisicao(id).get();
-
-        Comanda comanda = requisicaoService.adicionaPedido(requisicao, itemRepository.findById(idItemCardapio).get());
+        requisicao.adicionarPedido(itemRepository.findById(idItemCardapio).get());
         System.out.println("Pedido adicionado à comanda.");
     }
 
