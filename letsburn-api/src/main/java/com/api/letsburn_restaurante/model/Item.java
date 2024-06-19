@@ -1,10 +1,11 @@
 package com.api.letsburn_restaurante.model;
 
 import jakarta.persistence.*;
+
 import java.util.List;
 
 @Entity
-public class ItemCardapio extends Item {
+public abstract class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,11 +15,23 @@ public class ItemCardapio extends Item {
     @ManyToMany(mappedBy = "pedidos")
     private List<Comanda> comandas;
 
-    public ItemCardapio(String nome, Double preco) {
+    public Item(String nome, Double preco) {
         this.nome = nome;
         this.preco = preco;
     }
 
-    public ItemCardapio() {
+    public Item() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Double getPreco() {
+        return preco;
     }
 }
