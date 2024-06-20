@@ -87,31 +87,17 @@ public class RestauranteService {
     private void processarRequisicao(Requisicao requisicao, Optional<Mesa> optionalMesa) {
         if (optionalMesa.isPresent()) {
             requisicaoService.criarRequisicao(requisicao);
-        } else {
-            adicionarAListaDeEspera(requisicao);
         }
+
+        return requisicao.getId();
     }
 
-    /**
-     * Faz um pedido baseado na requisição e nome do item.
-     *
-     * @param requestPedido Informações do pedido.
-     * @return Comanda atualizada com o pedido.
-     */
-    public Comanda fazerPedido(RequestPedido requestPedido) {
-        Requisicao requisicao = requisicaoService.buscarRequisicao(requestPedido.idRequisicao())
-                .orElseThrow(() -> new IllegalArgumentException("Requisição não encontrada"));
-
-        return requisicaoService.adicionaPedido(requisicao,
-                itemRepository.findByNome(requestPedido.nome())
-                        .orElseThrow(() -> new IllegalArgumentException("Item não encontrado")));
+    public void fazerPedido(Long id, Long idItemCardapio) {
+        Requisicao requisicao = requisicaoService.buscarRequisicao(id).get();
+        requisicao.adicionarPedido(itemRepository.findById(idItemCardapio).get());
+        System.out.println("Pedido adicionado à comanda.");
     }
 
-    /**
-     * Adiciona uma requisição à lista de espera.
-     *
-     * @param requisicao Requisição a ser adicionada.
-     */
     private void adicionarAListaDeEspera(Requisicao requisicao) {
         listaDeEspera.add(requisicao);
     }
