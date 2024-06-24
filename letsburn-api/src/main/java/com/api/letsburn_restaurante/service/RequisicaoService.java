@@ -19,8 +19,22 @@ public class RequisicaoService {
         return requisicaoRepository.save(requisicao);
     }
 
-    public void atualizarRequisicao(Requisicao requisicao) {
-        requisicao.atualizar(requisicaoRepository);
+    public Optional<Requisicao> atualizarRequisicao(Long id, Requisicao requisicaoAtualizada) {
+        Optional<Requisicao> requisicaoExistente = requisicaoRepository.findById(id);
+        if (requisicaoExistente.isPresent()) {
+            Requisicao requisicao = requisicaoExistente.get();
+            requisicao.setHorarioEntrada(requisicaoAtualizada.getHorarioEntrada());
+            requisicao.setHorarioSaida(requisicaoAtualizada.getHorarioSaida());
+            requisicao.setQtdPessoas(requisicaoAtualizada.getQtdPessoas());
+            requisicao.setAtiva(requisicaoAtualizada.isAtiva());
+            requisicao.setMesa(requisicaoAtualizada.getMesa());
+            requisicao.setCliente(requisicaoAtualizada.getCliente());
+            requisicao.setComanda(requisicaoAtualizada.getComanda());
+            requisicaoRepository.save(requisicao);
+            return Optional.of(requisicao);
+        } else {
+            return Optional.empty();
+        }
     }
 
     public List<Requisicao> listarRequisicoes(Boolean ativa) {
@@ -34,7 +48,7 @@ public class RequisicaoService {
     }
 
     public Optional<Requisicao> buscarRequisicao(Long id) {
-        return Requisicao.buscarPorId(requisicaoRepository, id);
+        return requisicaoRepository.findById(id);
     }
 
     public void fecharConta(Long id) {
