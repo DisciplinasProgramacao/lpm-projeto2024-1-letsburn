@@ -128,12 +128,4 @@ public class Requisicao {
     public double calcularValorPorCliente(int qtdPessoas) {
         return this.comanda.calcularValorPorCliente(qtdPessoas);
     }
-
-    public void atualizar(RequisicaoRepository requisicaoRepository) {
-        requisicaoRepository.save(this);
-    }
-
-    public static Optional<Requisicao> buscarPorId(RequisicaoRepository requisicaoRepository, Long id) {
-        return requisicaoRepository.findById(id);
-    }
 }

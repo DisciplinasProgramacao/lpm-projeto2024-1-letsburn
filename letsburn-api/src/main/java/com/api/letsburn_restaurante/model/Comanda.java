@@ -39,4 +39,6 @@ public class Comanda {
     public void adicionarPedido(ItemCardapio item) {
         this.pedidos.add(item);
     }
+
+
 }

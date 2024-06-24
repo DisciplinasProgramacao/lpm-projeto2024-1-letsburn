@@ -102,7 +102,7 @@ public class RestauranteService {
                 mesa.setOcupada(true);
                 requisicao.setMesa(mesa);
                 requisicao.setAtiva(true);
-                requisicaoService.atualizarRequisicao(requisicao);
+                requisicaoService.atualizarRequisicao(requisicao.getId(), requisicao);
                 listaDeEspera.poll();
                 System.out.println("Requisição atendida a partir da lista de espera.");
             } else {
