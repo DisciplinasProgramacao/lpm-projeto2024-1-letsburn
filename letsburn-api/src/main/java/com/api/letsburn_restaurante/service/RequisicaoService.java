@@ -1,5 +1,8 @@
 package com.api.letsburn_restaurante.service;
 
+import com.api.letsburn_restaurante.exception.ResourceNotFoundException;
+import com.api.letsburn_restaurante.model.Comanda;
+import com.api.letsburn_restaurante.model.ItemCardapio;
 import com.api.letsburn_restaurante.model.Requisicao;
 import com.api.letsburn_restaurante.repository.RequisicaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +36,7 @@ public class RequisicaoService {
             requisicaoRepository.save(requisicao);
             return Optional.of(requisicao);
         } else {
-            return Optional.empty();
+            throw new ResourceNotFoundException("Requisicao não encontrada com id " + id);
         }
     }
 
@@ -51,12 +54,17 @@ public class RequisicaoService {
         return requisicaoRepository.findById(id);
     }
 
-    public void fecharConta(Long id) {
-        Optional<Requisicao> requisicaoOptional = buscarRequisicao(id);
+    //todo
+    // add exption quando nao encontrar requisicapo
+    public Requisicao fecharConta(Long id) {
+        Optional<Requisicao> requisicaoOptional = requisicaoRepository.findById(id);
         if (requisicaoOptional.isPresent()) {
             Requisicao requisicao = requisicaoOptional.get();
             requisicao.fecharConta();
             requisicaoRepository.save(requisicao);
+            return requisicaoOptional.get();
         }
+        return null;
     }
+
 }
