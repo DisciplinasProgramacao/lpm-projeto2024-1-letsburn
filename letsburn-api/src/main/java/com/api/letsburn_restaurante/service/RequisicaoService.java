@@ -1,5 +1,6 @@
 package com.api.letsburn_restaurante.service;
 
+import com.api.letsburn_restaurante.exception.ResourceNotFoundException;
 import com.api.letsburn_restaurante.model.Comanda;
 import com.api.letsburn_restaurante.model.ItemCardapio;
 import com.api.letsburn_restaurante.model.Requisicao;
@@ -29,8 +30,22 @@ public class RequisicaoService {
         return requisicaoRepository.save(requisicao);
     }
 
-    public void atualizarRequisicao(Requisicao requisicao) {
-        requisicaoRepository.save(requisicao);
+    public Optional<Requisicao> atualizarRequisicao(Long id, Requisicao requisicaoAtualizada) {
+        Optional<Requisicao> requisicaoExistente = requisicaoRepository.findById(id);
+        if (requisicaoExistente.isPresent()) {
+            Requisicao requisicao = requisicaoExistente.get();
+            requisicao.setHorarioEntrada(requisicaoAtualizada.getHorarioEntrada());
+            requisicao.setHorarioSaida(requisicaoAtualizada.getHorarioSaida());
+            requisicao.setQtdPessoas(requisicaoAtualizada.getQtdPessoas());
+            requisicao.setAtiva(requisicaoAtualizada.isAtiva());
+            requisicao.setMesa(requisicaoAtualizada.getMesa());
+            requisicao.setCliente(requisicaoAtualizada.getCliente());
+            requisicao.setComanda(requisicaoAtualizada.getComanda());
+            requisicaoRepository.save(requisicao);
+            return Optional.of(requisicao);
+        } else {
+            throw new ResourceNotFoundException("Requisicao não encontrada com id " + id);
+        }
     }
 
     public List<Requisicao> listarRequisicoes(Boolean ativa) {

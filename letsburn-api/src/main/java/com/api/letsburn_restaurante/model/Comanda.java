@@ -2,8 +2,7 @@ package com.api.letsburn_restaurante.model;
 
 import jakarta.persistence.*;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "comandas")
@@ -13,7 +12,6 @@ public class Comanda {
     private Long id;
 
     @ManyToMany
-    @JsonIgnore
     @JoinTable(name = "comanda_item_cardapio", joinColumns = @JoinColumn(name = "comanda_id"), inverseJoinColumns = @JoinColumn(name = "item_cardapio_id"))
     private List<ItemCardapio> pedidos;
 
@@ -41,11 +39,13 @@ public class Comanda {
     }
 
     public void removerPedido(ItemCardapio item) {
-        this.pedidos.remove(item);
+        this.pedidos = this.pedidos.stream()
+                .filter(pedido -> !pedido.equals(item))
+                .collect(Collectors.toList());
     }
 
     public double calcularValorTotal() {
-        return aplicarTaxa(this.getPedidos().stream().mapToDouble(Item::getPreco).sum());
+        return aplicarTaxa(this.pedidos.stream().mapToDouble(ItemCardapio::getPreco).sum());
     }
 
     public double calcularValorPorCliente(int numPessoas) {
