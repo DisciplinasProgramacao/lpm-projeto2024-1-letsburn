@@ -1,8 +1,11 @@
 package com.api.letsburn_restaurante.model;
 
+import com.api.letsburn_restaurante.repository.RequisicaoRepository;
+import com.api.letsburn_restaurante.service.ComandaService;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "requisicao")
@@ -24,7 +27,6 @@ public class Requisicao {
     @JoinColumn(name = "cliente_id", referencedColumnName = "id")
     private Cliente cliente;
 
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "comanda_id", referencedColumnName = "id")
     private Comanda comanda;
@@ -44,7 +46,6 @@ public class Requisicao {
     public Long getId() {
         return id;
     }
-
 
     public LocalDateTime getHorarioEntrada() {
         return horarioEntrada;
@@ -102,10 +103,29 @@ public class Requisicao {
         this.comanda = comanda;
     }
 
-    public void adicionarPedido(ItemCardapio item){
-       if (comanda == null)
-           comanda = new Comanda();
+    public void prepararRequisicao() {
+        if (this.qtdPessoas <= 0) {
+            this.qtdPessoas = 1;
+        } else if (this.qtdPessoas > 8) {
+            this.qtdPessoas = 8;
+        }
+        this.mesa.setOcupada(true);
+    }
 
-       comanda.adicionarPedido(item);
+    public void adicionarPedido(ItemCardapio item) {
+        if (comanda == null) {
+            comanda = new Comanda();
+        }
+        comanda.adicionarPedido(item);
+    }
+
+    public void fecharConta() {
+        this.ativa = false;
+        this.horarioSaida = LocalDateTime.now();
+        this.mesa.setOcupada(false);
+    }
+
+    public double calcularValorPorCliente(int qtdPessoas) {
+        return this.comanda.calcularValorPorCliente(qtdPessoas);
     }
 }
