@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.api.letsburn_restaurante.exception.ResourceNotFoundException;
 import com.api.letsburn_restaurante.model.Comanda;
-import com.api.letsburn_restaurante.model.ItemCardapio;
+import com.api.letsburn_restaurante.model.Item;
 import com.api.letsburn_restaurante.model.Requisicao;
 import com.api.letsburn_restaurante.repository.ComandaRepository;
 import com.api.letsburn_restaurante.repository.ItemRepository;
@@ -25,7 +25,6 @@ public class ComandaService {
     @Autowired
     private ItemRepository itemRepository;
 
-
     public Comanda criarComanda(Comanda comanda) {
         return comandaRepository.save(comanda);
     }
@@ -41,19 +40,22 @@ public class ComandaService {
 
     public Comanda adicionarPedido(Long id, Long idItemCardapio) {
         Comanda comanda = buscarComanda(id);
-        ItemCardapio item = itemRepository.findById(idItemCardapio)
-                .orElseThrow(() -> new ResourceNotFoundException("ItemCardapio não encontrado com id " + idItemCardapio));
+        Item item = itemRepository.findById(idItemCardapio)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("ItemCardapio não encontrado com id " + idItemCardapio));
         comanda.adicionarPedido(item);
         return comandaRepository.save(comanda);
     }
 
     public Comanda removerPedido(Long id, Long idItemCardapio) {
         Comanda comanda = buscarComanda(id);
-        ItemCardapio item = itemRepository.findById(idItemCardapio)
-                .orElseThrow(() -> new ResourceNotFoundException("ItemCardapio não encontrado com id " + idItemCardapio));
+        Item item = itemRepository.findById(idItemCardapio)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("ItemCardapio não encontrado com id " + idItemCardapio));
         comanda.removerPedido(item);
         return comandaRepository.save(comanda);
     }
+
     public void fecharComanda(@PathVariable Long id) {
         Comanda comanda = buscarComanda(id);
         Requisicao req = requisicaoRepository.findByComanda_Id(id);

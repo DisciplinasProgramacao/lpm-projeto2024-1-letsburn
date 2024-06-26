@@ -68,6 +68,7 @@ public class RestauranteService {
     public void fazerPedido(Long id, Long idItemCardapio) {
         Requisicao requisicao = requisicaoService.buscarRequisicao(id).get();
         requisicao.adicionarPedido(itemRepository.findById(idItemCardapio).get());
+        requisicaoService.atualizarRequisicao(requisicao.getId(), requisicao);
         System.out.println("Pedido adicionado à comanda.");
     }
 

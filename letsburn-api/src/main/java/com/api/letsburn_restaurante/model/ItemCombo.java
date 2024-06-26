@@ -4,64 +4,25 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public abstract class ItemCombo extends Item {
+public class ItemCombo extends Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nome;
-    private Double preco;
 
     @ManyToMany
-    @JoinTable(
-            name = "item_combo_cardapio",
-            joinColumns = @JoinColumn(name = "item_combo_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_cardapio_id")
-    )
-    private List<ItemCardapio> itens;
+    @JoinTable(name = "item_combo", joinColumns = @JoinColumn(name = "item_combo_id"), inverseJoinColumns = @JoinColumn(name = "item_cardapio_id"))
+    private final List<ItemCardapio> itens;
 
-    @ManyToMany(mappedBy = "pedidos")
-    private List<Comanda> comandas;
-
-    public ItemCombo(String nome, Double preco) {
-        this.nome = nome;
-        this.preco = preco;
+    public ItemCombo(String nome, Double preco, List<ItemCardapio> itens) {
+        super(nome, preco);
+        this.itens = itens;
     }
 
     public ItemCombo() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public Double getPreco() {
-        return preco;
+        itens = null;
     }
 
     public List<ItemCardapio> getItens() {
         return itens;
     }
 
-    public void setItens(List<ItemCardapio> itens) {
-        this.itens = itens;
-    }
-
-    public List<Comanda> getComandas() {
-        return comandas;
-    }
-
-    public void setComandas(List<Comanda> comandas) {
-        this.comandas = comandas;
-    }
-
-    public void adicionarItemAvulso(Comanda comanda, ItemCardapio item) {
-        if (!comandas.contains(comanda)) {
-            comandas.add(comanda);
-        }
-        comanda.adicionarPedido(item);
-    }
 }
