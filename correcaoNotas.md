@@ -53,3 +53,30 @@ Controller Pedido - não tem - Mateus - Jorge - 6
 Controller Requisicao - ok - Isaac - 12
 
 App - bem atrasado - sem pedidos - Gustavo - 8
+
+## Sprint 3 - Até 05/junho
+  - Nota de grupo (6 pontos)
+    - Modelo atualizado - menu fechado
+  
+  - Nota individual (14 pontos)	
+    - Implementações menu fechado e app
+    - Correções anteriores
+
+### Revisão 12/06
+
+Documentação parece ter sumido toda no novo modelo de API. diagrama sem novos requisitos. - Todos - 0
+
+Confusão da lógica controller/model/app
+
+Menu fechado ainda inicial
+
+Controller Restaurante - parcial - 
+
+Precisamos ter um 'orquestrador' para a apresentação do trabalho. O App/bean que eu consegui ver ainda está lá na Sprint1.
+
+Contribuições: Isaac++++, (Mateus, Gustavo, Amanda++), (Jorge, Gabriel ❌)
+	
+	
+	
+
+	
