@@ -57,4 +57,11 @@ public abstract class ItemCombo extends Item {
     public void setComandas(List<Comanda> comandas) {
         this.comandas = comandas;
     }
+
+    public void adicionarItemAvulso(Comanda comanda, ItemCardapio item) {
+        if (!comandas.contains(comanda)) {
+            comandas.add(comanda);
+        }
+        comanda.adicionarPedido(item);
+    }
 }
