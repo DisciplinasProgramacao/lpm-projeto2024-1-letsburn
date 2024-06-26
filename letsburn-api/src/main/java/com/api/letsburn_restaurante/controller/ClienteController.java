@@ -39,4 +39,6 @@ public class ClienteController {
         List<Cliente> clientes = clientRepository.findAll();
         return ResponseEntity.ok(clientes);
     }
+
+    
 }
