@@ -11,6 +11,9 @@ public class ItemCardapio extends Item {
     private String nome;
     private Double preco;
 
+    @ManyToMany(mappedBy = "itens")
+    private List<ItemCombo> combos;
+
     @ManyToMany(mappedBy = "pedidos")
     private List<Comanda> comandas;
 
@@ -20,5 +23,33 @@ public class ItemCardapio extends Item {
     }
 
     public ItemCardapio() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Double getPreco() {
+        return preco;
+    }
+
+    public List<ItemCombo> getCombos() {
+        return combos;
+    }
+
+    public void setCombos(List<ItemCombo> combos) {
+        this.combos = combos;
+    }
+
+    public List<Comanda> getComandas() {
+        return comandas;
+    }
+
+    public void setComandas(List<Comanda> comandas) {
+        this.comandas = comandas;
     }
 }
