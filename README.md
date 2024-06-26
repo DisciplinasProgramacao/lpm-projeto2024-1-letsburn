@@ -1,5 +1,7 @@
 # LetsBurn
 
+Um restaurante de comidas veganas 
+
 ## Alunos integrantes da equipe
 
 * Amanda Bueno Campos Peixoto
