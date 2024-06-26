@@ -12,7 +12,6 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -68,8 +67,7 @@ public class RestauranteService {
 
     public void fazerPedido(Long id, Long idItemCardapio) {
         Requisicao requisicao = requisicaoService.buscarRequisicao(id).get();
-
-        Comanda comanda = requisicaoService.adicionaPedido(requisicao, itemRepository.findById(idItemCardapio).get());
+        requisicao.adicionarPedido(itemRepository.findById(idItemCardapio).get());
         System.out.println("Pedido adicionado à comanda.");
     }
 
@@ -83,9 +81,9 @@ public class RestauranteService {
         Requisicao requisicao = requisicaoService.buscarRequisicao(id).get();
 
         Comanda comanda = requisicao.getComanda();
-        double valorTotal = comandaService.calcularValorTotal(comanda);
+        double valorTotal = comanda.calcularValorTotal();
         int qtdPessoas = requisicao.getQtdPessoas();
-        double valorPorCliente = comandaService.calcularValorPorCliente(comanda, qtdPessoas);
+        double valorPorCliente = comanda.calcularValorPorCliente(qtdPessoas);
 
         verificarListaDeEspera();
         return new ResponseComanda(comanda.getId(), valorTotal, qtdPessoas, valorPorCliente);
@@ -104,7 +102,7 @@ public class RestauranteService {
                 mesa.setOcupada(true);
                 requisicao.setMesa(mesa);
                 requisicao.setAtiva(true);
-                requisicaoService.atualizarRequisicao(requisicao);
+                requisicaoService.atualizarRequisicao(requisicao.getId(), requisicao);
                 listaDeEspera.poll();
                 System.out.println("Requisição atendida a partir da lista de espera.");
             } else {

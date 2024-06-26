@@ -5,10 +5,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.api.letsburn_restaurante.model.ItemCardapio;
+import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends JpaRepository<ItemCardapio, Long> {
     boolean existsByNome(String nome);
-    Optional<ItemCardapio> findByNome(String nome);  // Adicionar esse método
+
+    Optional<ItemCardapio> findByNome(String nome);
 }
