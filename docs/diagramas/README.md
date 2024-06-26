@@ -23,4 +23,10 @@ Coloque aqui todas as versões do seu diagrama de classes. Cada versão deve com
 
     ![UML4](lestburn-v.04.jpg)
   
+* 0.5 - Quinta versão
 
+    ![UML5](lestburn-v.05.jpg)
+
+* 0.6 - Sexta versão
+
+    ![UML5](letsburn-v.06.jpg)
