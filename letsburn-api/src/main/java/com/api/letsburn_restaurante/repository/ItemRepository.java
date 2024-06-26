@@ -2,6 +2,7 @@ package com.api.letsburn_restaurante.repository;
 
 import java.util.Optional;
 
+import com.api.letsburn_restaurante.model.ItemCardapio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
