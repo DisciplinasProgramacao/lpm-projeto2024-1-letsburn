@@ -1,14 +1,18 @@
 package com.api.letsburn_restaurante.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.api.letsburn_restaurante.exception.ResourceNotFoundException;
 import com.api.letsburn_restaurante.model.Comanda;
 import com.api.letsburn_restaurante.model.ItemCardapio;
+import com.api.letsburn_restaurante.model.Requisicao;
 import com.api.letsburn_restaurante.repository.ComandaRepository;
 import com.api.letsburn_restaurante.repository.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
+import com.api.letsburn_restaurante.repository.RequisicaoRepository;
 
 @Service
 public class ComandaService {
@@ -18,6 +22,9 @@ public class ComandaService {
 
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private RequisicaoRepository requisicaoRepository;
 
     public Comanda criarComanda(Comanda comanda) {
         return comandaRepository.save(comanda);
@@ -47,4 +54,11 @@ public class ComandaService {
         comanda.removerPedido(item);
         return comandaRepository.save(comanda);
     }
+    
+    public void fecharComanda(@PathVariable Long id) {
+        Comanda comanda = buscarComanda(id);
+        Requisicao req = requisicaoRepository.findByComanda_Id(id);
+        req.fecharConta();
+    }
+
 }
