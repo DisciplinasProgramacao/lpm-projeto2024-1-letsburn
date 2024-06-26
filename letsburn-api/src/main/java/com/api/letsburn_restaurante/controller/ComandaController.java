@@ -17,7 +17,7 @@ import com.api.letsburn_restaurante.model.Comanda;
 import com.api.letsburn_restaurante.service.ComandaService;
 
 @RestController
-@RequestMapping("/api/comandas")
+@RequestMapping("/comandas")
 public class ComandaController {
 
     @Autowired

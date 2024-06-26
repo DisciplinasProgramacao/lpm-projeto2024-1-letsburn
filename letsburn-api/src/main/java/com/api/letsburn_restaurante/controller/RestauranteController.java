@@ -37,9 +37,4 @@ public class RestauranteController {
         ResponseComanda responseComanda = restauranteService.fecharConta(id);
         return ResponseEntity.ok(responseComanda);
     }
-
-    @GetMapping("/requisicoes")
-    public ResponseEntity<List<Requisicao>> requisicoes(@RequestParam(required = false) Boolean ativa) {
-        return ResponseEntity.ok().body(restauranteService.requisicoes(ativa));
-    }
 }
