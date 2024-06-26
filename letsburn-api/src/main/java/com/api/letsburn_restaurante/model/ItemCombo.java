@@ -9,7 +9,7 @@ public class ItemCombo extends Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @ManyToMany
-    @JoinTable(name = "item_combo_cardapio", joinColumns = @JoinColumn(name = "item_combo_id"), inverseJoinColumns = @JoinColumn(name = "item_cardapio_id"))
+    @JoinTable(name = "item_combo", joinColumns = @JoinColumn(name = "item_combo_id"), inverseJoinColumns = @JoinColumn(name = "item_cardapio_id"))
     private final List<ItemCardapio> itens;
 
     public ItemCombo(String nome, Double preco, List<ItemCardapio> itens) {

@@ -12,7 +12,7 @@ public class Comanda {
     private Long id;
 
     @ManyToMany
-    @JoinTable(name = "comanda_item_cardapio", joinColumns = @JoinColumn(name = "comanda_id"), inverseJoinColumns = @JoinColumn(name = "item_cardapio_id"))
+    @JoinTable(name = "comanda_item", joinColumns = @JoinColumn(name = "comanda_id"), inverseJoinColumns = @JoinColumn(name = "item_cardapio_id"))
     private List<Item> pedidos;
 
     public Comanda() {
