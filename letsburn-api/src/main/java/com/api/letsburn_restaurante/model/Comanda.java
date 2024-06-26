@@ -13,12 +13,12 @@ public class Comanda {
 
     @ManyToMany
     @JoinTable(name = "comanda_item_cardapio", joinColumns = @JoinColumn(name = "comanda_id"), inverseJoinColumns = @JoinColumn(name = "item_cardapio_id"))
-    private List<ItemCardapio> pedidos;
+    private List<Item> pedidos;
 
     public Comanda() {
     }
 
-    public Comanda(List<ItemCardapio> pedidos) {
+    public Comanda(List<Item> pedidos) {
         this.pedidos = pedidos;
     }
 
@@ -26,26 +26,26 @@ public class Comanda {
         return id;
     }
 
-    public List<ItemCardapio> getPedidos() {
+    public List<Item> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(List<ItemCardapio> pedidos) {
+    public void setPedidos(List<Item> pedidos) {
         this.pedidos = pedidos;
     }
 
-    public void adicionarPedido(ItemCardapio item) {
+    public void adicionarPedido(Item item) {
         this.pedidos.add(item);
     }
 
-    public void removerPedido(ItemCardapio item) {
+    public void removerPedido(Item item) {
         this.pedidos = this.pedidos.stream()
                 .filter(pedido -> !pedido.equals(item))
                 .collect(Collectors.toList());
     }
 
     public double calcularValorTotal() {
-        return aplicarTaxa(this.pedidos.stream().mapToDouble(ItemCardapio::getPreco).sum());
+        return aplicarTaxa(this.pedidos.stream().mapToDouble(Item::getPreco).sum());
     }
 
     public double calcularValorPorCliente(int numPessoas) {

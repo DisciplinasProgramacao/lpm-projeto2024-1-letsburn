@@ -112,7 +112,7 @@ public class Requisicao {
         this.mesa.setOcupada(true);
     }
 
-    public void adicionarPedido(ItemCardapio item) {
+    public void adicionarPedido(Item item) {
         if (comanda == null) {
             comanda = new Comanda();
         }
