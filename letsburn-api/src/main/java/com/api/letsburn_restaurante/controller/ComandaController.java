@@ -45,4 +45,16 @@ public class ComandaController {
         Comanda comanda = comandaService.removerPedido(id, idItemCardapio);
         return ResponseEntity.ok(comanda);
     }
+    
+    @PutMapping("/{id}/fechar")
+    public ResponseEntity<String> fecharComanda(@PathVariable Long id) {
+        comandaService.fecharComanda(id);
+        return ResponseEntity.ok("Comanda fechada com sucesso");
+    }
+
+    @GetMapping("/{id}/preco")
+    public ResponseEntity<Double> perguntarPreco(@PathVariable Long id) {
+        Comanda comanda = comandaService.buscarComanda(id);
+        return ResponseEntity.ok(comanda.calcularValorTotal());
+    }
 }
