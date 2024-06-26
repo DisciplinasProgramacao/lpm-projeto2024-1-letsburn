@@ -25,7 +25,6 @@ public class ComandaService {
     @Autowired
     private ItemRepository itemRepository;
 
-
     public Comanda criarComanda(Comanda comanda) {
         return comandaRepository.save(comanda);
     }
@@ -42,7 +41,8 @@ public class ComandaService {
     public Comanda adicionarPedido(Long id, Long idItemCardapio) {
         Comanda comanda = buscarComanda(id);
         ItemCardapio item = itemRepository.findById(idItemCardapio)
-                .orElseThrow(() -> new ResourceNotFoundException("ItemCardapio não encontrado com id " + idItemCardapio));
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("ItemCardapio não encontrado com id " + idItemCardapio));
         comanda.adicionarPedido(item);
         return comandaRepository.save(comanda);
     }
@@ -50,10 +50,12 @@ public class ComandaService {
     public Comanda removerPedido(Long id, Long idItemCardapio) {
         Comanda comanda = buscarComanda(id);
         ItemCardapio item = itemRepository.findById(idItemCardapio)
-                .orElseThrow(() -> new ResourceNotFoundException("ItemCardapio não encontrado com id " + idItemCardapio));
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("ItemCardapio não encontrado com id " + idItemCardapio));
         comanda.removerPedido(item);
         return comandaRepository.save(comanda);
     }
+
     public void fecharComanda(@PathVariable Long id) {
         Comanda comanda = buscarComanda(id);
         Requisicao req = requisicaoRepository.findByComanda_Id(id);
