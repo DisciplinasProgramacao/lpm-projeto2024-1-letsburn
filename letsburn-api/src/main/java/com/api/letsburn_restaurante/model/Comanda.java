@@ -19,7 +19,7 @@ public class Comanda {
     }
 
     public Comanda(List<ItemCardapio> pedidos) {
-        this.pedidos = pedidos;
+        setPedidos(pedidos);
     }
 
     public Long getId() {
@@ -31,14 +31,23 @@ public class Comanda {
     }
 
     public void setPedidos(List<ItemCardapio> pedidos) {
+        if (pedidos == null || pedidos.isEmpty()) {
+            throw new IllegalArgumentException("A lista de pedidos não pode ser nula ou vazia.");
+        }
         this.pedidos = pedidos;
     }
 
     public void adicionarPedido(ItemCardapio item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item não pode ser nulo.");
+        }
         this.pedidos.add(item);
     }
 
     public void removerPedido(ItemCardapio item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item não pode ser nulo.");
+        }
         this.pedidos = this.pedidos.stream()
                 .filter(pedido -> !pedido.equals(item))
                 .collect(Collectors.toList());
@@ -49,11 +58,17 @@ public class Comanda {
     }
 
     public double calcularValorPorCliente(int numPessoas) {
+        if (numPessoas <= 0) {
+            throw new IllegalArgumentException("O número de pessoas deve ser maior que zero.");
+        }
         double valorTotal = calcularValorTotal();
         return valorTotal / numPessoas;
     }
 
     public double aplicarTaxa(Double precoTotal) {
+        if (precoTotal == null || precoTotal < 0) {
+            throw new IllegalArgumentException("O preço total não pode ser nulo ou negativo.");
+        }
         return precoTotal + (precoTotal * 0.10);
     }
 }

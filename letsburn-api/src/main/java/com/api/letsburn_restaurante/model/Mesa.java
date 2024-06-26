@@ -2,6 +2,7 @@ package com.api.letsburn_restaurante.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -9,17 +10,16 @@ import jakarta.persistence.Table;
 @Table(name = "mesas")
 public class Mesa {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int capacidade;
     private boolean ocupada;
-
 
     public Mesa() {
     }
 
     public Mesa(int capacidade) {
-        this.capacidade = capacidade;
+        setCapacidade(capacidade);
         this.ocupada = false;
     }
 
@@ -32,6 +32,9 @@ public class Mesa {
     }
 
     public void setCapacidade(int capacidade) {
+        if (capacidade <= 0) {
+            throw new IllegalArgumentException("Capacidade deve ser maior que zero.");
+        }
         this.capacidade = capacidade;
     }
 
@@ -42,5 +45,4 @@ public class Mesa {
     public void setOcupada(boolean ocupada) {
         this.ocupada = ocupada;
     }
-
 }

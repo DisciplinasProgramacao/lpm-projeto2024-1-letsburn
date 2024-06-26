@@ -1,11 +1,7 @@
 package com.api.letsburn_restaurante.model;
 
-import com.api.letsburn_restaurante.repository.RequisicaoRepository;
-import com.api.letsburn_restaurante.service.ComandaService;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Entity
 @Table(name = "requisicao")
@@ -35,10 +31,10 @@ public class Requisicao {
     }
 
     public Requisicao(int qtdPessoas, Mesa mesa, Cliente cliente, boolean ativa) {
+        setQtdPessoas(qtdPessoas);
+        setMesa(mesa);
+        setCliente(cliente);
         this.horarioEntrada = LocalDateTime.now();
-        this.qtdPessoas = qtdPessoas;
-        this.mesa = mesa;
-        this.cliente = cliente;
         this.ativa = ativa;
         this.comanda = new Comanda();
     }
@@ -52,6 +48,9 @@ public class Requisicao {
     }
 
     public void setHorarioEntrada(LocalDateTime horarioEntrada) {
+        if (horarioEntrada == null) {
+            throw new IllegalArgumentException("Horário de entrada não pode ser nulo.");
+        }
         this.horarioEntrada = horarioEntrada;
     }
 
@@ -60,6 +59,9 @@ public class Requisicao {
     }
 
     public void setHorarioSaida(LocalDateTime horarioSaida) {
+        if (horarioSaida != null && horarioSaida.isBefore(horarioEntrada)) {
+            throw new IllegalArgumentException("Horário de saída não pode ser antes do horário de entrada.");
+        }
         this.horarioSaida = horarioSaida;
     }
 
@@ -68,6 +70,9 @@ public class Requisicao {
     }
 
     public void setQtdPessoas(int qtdPessoas) {
+        if (qtdPessoas <= 0) {
+            throw new IllegalArgumentException("Quantidade de pessoas deve ser maior que zero.");
+        }
         this.qtdPessoas = qtdPessoas;
     }
 
@@ -84,6 +89,9 @@ public class Requisicao {
     }
 
     public void setMesa(Mesa mesa) {
+        if (mesa == null) {
+            throw new IllegalArgumentException("Mesa não pode ser nula.");
+        }
         this.mesa = mesa;
     }
 
@@ -92,6 +100,9 @@ public class Requisicao {
     }
 
     public void setCliente(Cliente cliente) {
+        if (cliente == null) {
+            throw new IllegalArgumentException("Cliente não pode ser nulo.");
+        }
         this.cliente = cliente;
     }
 
@@ -100,14 +111,17 @@ public class Requisicao {
     }
 
     public void setComanda(Comanda comanda) {
+        if (comanda == null) {
+            throw new IllegalArgumentException("Comanda não pode ser nula.");
+        }
         this.comanda = comanda;
     }
 
     public void prepararRequisicao() {
         if (this.qtdPessoas <= 0) {
-            this.qtdPessoas = 1;
+            throw new IllegalArgumentException("Quantidade de pessoas deve ser maior que zero.");
         } else if (this.qtdPessoas > 8) {
-            this.qtdPessoas = 8;
+            throw new IllegalArgumentException("Quantidade de pessoas não pode ser maior que 8.");
         }
         this.mesa.setOcupada(true);
     }
@@ -120,12 +134,18 @@ public class Requisicao {
     }
 
     public void fecharConta() {
+        if (!this.ativa) {
+            throw new IllegalStateException("A requisição já está fechada.");
+        }
         this.ativa = false;
         this.horarioSaida = LocalDateTime.now();
         this.mesa.setOcupada(false);
     }
 
     public double calcularValorPorCliente(int qtdPessoas) {
+        if (qtdPessoas <= 0) {
+            throw new IllegalArgumentException("Quantidade de pessoas deve ser maior que zero.");
+        }
         return this.comanda.calcularValorPorCliente(qtdPessoas);
     }
 }

@@ -17,15 +17,27 @@ public enum Cardapio {
     private final double preco;
 
     Cardapio(String descricao, double preco) {
+        if (descricao == null || descricao.isEmpty()) {
+            throw new IllegalArgumentException("Descrição não pode ser nula ou vazia.");
+        }
+        if (preco < 0) {
+            throw new IllegalArgumentException("Preço não pode ser negativo.");
+        }
         this.descricao = descricao;
         this.preco = preco;
     }
 
     public String getNome() {
+        if (descricao == null || descricao.isEmpty()) {
+            throw new IllegalStateException("Descrição não pode ser nula ou vazia.");
+        }
         return descricao;
     }
 
     public double getPreco() {
+        if (preco < 0) {
+            throw new IllegalStateException("Preço não pode ser negativo.");
+        }
         return preco;
     }
     

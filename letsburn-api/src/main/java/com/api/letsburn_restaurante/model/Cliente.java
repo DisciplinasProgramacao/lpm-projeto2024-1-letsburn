@@ -2,6 +2,7 @@ package com.api.letsburn_restaurante.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -9,7 +10,7 @@ import jakarta.persistence.Table;
 @Table(name = "clientes")
 public class Cliente {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
 
@@ -17,10 +18,21 @@ public class Cliente {
     }
 
     public Cliente(String nome) {
-        this.nome = nome;
+        setNome(nome);
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome não pode ser nulo ou vazio.");
+        }
+        this.nome = nome;
     }
 }

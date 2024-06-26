@@ -1,38 +1,42 @@
 package com.api.letsburn_restaurante.model;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
 public abstract class ItemCombo extends Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nome;
-    private Double preco;
     @ManyToMany(mappedBy = "itens")
     private List<ItemCardapio> itens;
+    
     @ManyToMany(mappedBy = "pedidos")
     private List<Comanda> comandas;
 
     public ItemCombo(String nome, Double preco) {
-        this.nome = nome;
-        this.preco = preco;
+        super(nome, preco);
     }
 
     public ItemCombo() {
     }
 
-    public Long getId() {
-        return id;
+    public List<ItemCardapio> getItens() {
+        return itens;
     }
 
-    public String getNome() {
-        return nome;
+    public void setItens(List<ItemCardapio> itens) {
+        if (itens == null || itens.isEmpty()) {
+            throw new IllegalArgumentException("A lista de itens não pode ser nula ou vazia.");
+        }
+        this.itens = itens;
     }
 
-    public Double getPreco() {
-        return preco;
+    public List<Comanda> getComandas() {
+        return comandas;
+    }
+
+    public void setComandas(List<Comanda> comandas) {
+        if (comandas == null || comandas.isEmpty()) {
+            throw new IllegalArgumentException("A lista de comandas não pode ser nula ou vazia.");
+        }
+        this.comandas = comandas;
     }
 }
