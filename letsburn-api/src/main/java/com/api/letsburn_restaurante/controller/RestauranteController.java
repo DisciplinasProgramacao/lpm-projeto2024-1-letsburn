@@ -21,15 +21,15 @@ public class RestauranteController {
         return ResponseEntity.ok(idAtendimento);
     }
 
-    @PutMapping("/fazer-pedido/{id}")
-    public void fazerPedido(@PathVariable Long id, @RequestParam Long idItemCardapio) {
-        restauranteService.fazerPedido(id, idItemCardapio);
+    @PutMapping("/fazer-pedido/{idRequisicao}")
+    public void fazerPedido(@PathVariable Long idRequisicao, @RequestParam Long idItemCardapio) {
+        restauranteService.fazerPedido(idRequisicao, idItemCardapio);
     }
 
 
-    @PutMapping("/fechar-conta/{id}")
-    public ResponseEntity<ResponseComanda> fecharConta(@PathVariable Long id) {
-        ResponseComanda responseComanda = restauranteService.fecharConta(id);
+    @PutMapping("/fechar-conta/{idRequisicao}")
+    public ResponseEntity<ResponseComanda> fecharConta(@PathVariable Long idRequisicao) {
+        ResponseComanda responseComanda = restauranteService.fecharConta(idRequisicao);
         return ResponseEntity.ok(responseComanda);
     }
 }
