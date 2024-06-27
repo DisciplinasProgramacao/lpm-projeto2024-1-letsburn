@@ -14,7 +14,6 @@ public class Mesa {
     private int capacidade;
     private boolean ocupada;
 
-
     public Mesa() {
     }
 
@@ -42,5 +41,4 @@ public class Mesa {
     public void setOcupada(boolean ocupada) {
         this.ocupada = ocupada;
     }
-
 }

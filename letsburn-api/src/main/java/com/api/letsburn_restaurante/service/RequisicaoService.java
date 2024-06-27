@@ -1,6 +1,7 @@
 package com.api.letsburn_restaurante.service;
 
 import com.api.letsburn_restaurante.exception.ResourceNotFoundException;
+import com.api.letsburn_restaurante.exception.UnableToCloseAccountException;
 import com.api.letsburn_restaurante.model.Requisicao;
 import com.api.letsburn_restaurante.repository.RequisicaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,17 +53,16 @@ public class RequisicaoService {
         return requisicaoRepository.findById(id);
     }
 
-    // todo
-    // add exption quando nao encontrar requisicapo
     public Requisicao fecharConta(Long id) {
         Optional<Requisicao> requisicaoOptional = requisicaoRepository.findById(id);
         if (requisicaoOptional.isPresent()) {
             Requisicao requisicao = requisicaoOptional.get();
             requisicao.fecharConta();
             requisicaoRepository.save(requisicao);
-            return requisicaoOptional.get();
+            return requisicao;
+        } else {
+            throw new UnableToCloseAccountException("Não foi possível fechar a conta para a requisição com id " + id);
         }
-        return null;
     }
 
 }

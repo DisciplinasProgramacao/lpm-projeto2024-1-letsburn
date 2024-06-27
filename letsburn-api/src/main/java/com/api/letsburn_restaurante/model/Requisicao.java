@@ -1,11 +1,7 @@
 package com.api.letsburn_restaurante.model;
 
-import com.api.letsburn_restaurante.repository.RequisicaoRepository;
-import com.api.letsburn_restaurante.service.ComandaService;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Entity
 @Table(name = "requisicao")
@@ -19,7 +15,7 @@ public class Requisicao {
     private int qtdPessoas;
     private boolean ativa;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "mesa_id", referencedColumnName = "id")
     private Mesa mesa;
 

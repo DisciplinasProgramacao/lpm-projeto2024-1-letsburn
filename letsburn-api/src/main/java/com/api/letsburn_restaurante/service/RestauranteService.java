@@ -3,6 +3,7 @@ package com.api.letsburn_restaurante.service;
 import com.api.letsburn_restaurante.dto.RequestAtenderClienteDTO;
 import com.api.letsburn_restaurante.dto.ResponseComanda;
 import com.api.letsburn_restaurante.exception.NumeroDePessoasExcedidoException;
+import com.api.letsburn_restaurante.exception.MesasOcupadasException;
 import com.api.letsburn_restaurante.model.Cliente;
 import com.api.letsburn_restaurante.model.Comanda;
 import com.api.letsburn_restaurante.model.Mesa;
@@ -12,10 +13,8 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
 
 @Service
 public class RestauranteService {
@@ -35,8 +34,6 @@ public class RestauranteService {
     @Autowired
     private ItemRepository itemRepository;
 
-    private final Queue<Requisicao> listaDeEspera = new LinkedList<>();
-
     @PostConstruct
     public void init() {
         criarMesas();
@@ -48,19 +45,17 @@ public class RestauranteService {
             throw new NumeroDePessoasExcedidoException("O número de pessoas não pode ser maior que 8.");
         }
 
+        Optional<Mesa> optionalMesa = mesaService.buscarMelhorMesaDisponivel(atenderClienteDTO.qtdPessoas());
+        if (!optionalMesa.isPresent()) {
+            throw new MesasOcupadasException("Todas as mesas de "+ atenderClienteDTO.qtdPessoas() + " pessoas estão ocupadas. Por favor, aguarde.");
+        }
+
         Cliente cliente = new Cliente(atenderClienteDTO.nome());
         clienteService.cadastrarCliente(cliente);
 
-        Optional<Mesa> optionalMesa = mesaService.buscarMelhorMesaDisponivel(atenderClienteDTO.qtdPessoas());
-        Requisicao requisicao = optionalMesa
-                .map(mesa -> new Requisicao(atenderClienteDTO.qtdPessoas(), mesa, cliente, true))
-                .orElseGet(() -> new Requisicao(atenderClienteDTO.qtdPessoas(), null, cliente, false));
-
-        if (!optionalMesa.isPresent()) {
-            adicionarAListaDeEspera(requisicao);
-        } else {
-            requisicaoService.criarRequisicao(requisicao);
-        }
+        Mesa mesa = optionalMesa.get();
+        Requisicao requisicao = new Requisicao(atenderClienteDTO.qtdPessoas(), mesa, cliente, true);
+        requisicaoService.criarRequisicao(requisicao);
 
         return requisicao.getId();
     }
@@ -72,44 +67,18 @@ public class RestauranteService {
         System.out.println("Pedido adicionado à comanda.");
     }
 
-    private void adicionarAListaDeEspera(Requisicao requisicao) {
-        listaDeEspera.add(requisicao);
-        System.out.println("Requisição adicionada à lista de espera.");
-    }
-
     public ResponseComanda fecharConta(Long id) {
-        requisicaoService.fecharConta(id);
-        Requisicao requisicao = requisicaoService.buscarRequisicao(id).get();
-
+        Requisicao requisicao = requisicaoService.fecharConta(id);
         Comanda comanda = requisicao.getComanda();
         double valorTotal = comanda.calcularValorTotal();
         int qtdPessoas = requisicao.getQtdPessoas();
         double valorPorCliente = comanda.calcularValorPorCliente(qtdPessoas);
 
-        verificarListaDeEspera();
         return new ResponseComanda(comanda.getId(), valorTotal, qtdPessoas, valorPorCliente);
     }
 
     public List<Requisicao> requisicoes(Boolean ativa) {
         return requisicaoService.listarRequisicoes(ativa);
-    }
-
-    private void verificarListaDeEspera() {
-        while (!listaDeEspera.isEmpty()) {
-            Requisicao requisicao = listaDeEspera.peek();
-            Optional<Mesa> optionalMesa = mesaService.buscarMelhorMesaDisponivel(requisicao.getQtdPessoas());
-            if (optionalMesa.isPresent()) {
-                Mesa mesa = optionalMesa.get();
-                mesa.setOcupada(true);
-                requisicao.setMesa(mesa);
-                requisicao.setAtiva(true);
-                requisicaoService.atualizarRequisicao(requisicao.getId(), requisicao);
-                listaDeEspera.poll();
-                System.out.println("Requisição atendida a partir da lista de espera.");
-            } else {
-                break;
-            }
-        }
     }
 
     public void criarMesas() {

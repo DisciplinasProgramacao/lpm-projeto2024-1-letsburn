@@ -1,13 +1,8 @@
 package com.api.letsburn_restaurante.controller;
 
 import com.api.letsburn_restaurante.dto.RequestAtenderClienteDTO;
-import com.api.letsburn_restaurante.dto.RequestPedido;
 import com.api.letsburn_restaurante.dto.ResponseComanda;
-import com.api.letsburn_restaurante.model.Comanda;
-import com.api.letsburn_restaurante.model.Requisicao;
 import com.api.letsburn_restaurante.service.RestauranteService;
-
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

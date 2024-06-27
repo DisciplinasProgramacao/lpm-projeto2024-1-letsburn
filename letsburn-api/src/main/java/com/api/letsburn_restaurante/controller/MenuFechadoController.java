@@ -1,8 +1,6 @@
 package com.api.letsburn_restaurante.controller;
 
-import com.api.letsburn_restaurante.dto.AdicionarItemAvulsoDTO;
 import com.api.letsburn_restaurante.dto.ResquestMenuFechado;
-import com.api.letsburn_restaurante.model.Comanda;
 import com.api.letsburn_restaurante.model.ItemCardapio;
 import com.api.letsburn_restaurante.model.ItemCombo;
 import com.api.letsburn_restaurante.repository.ComandaRepository;
@@ -54,30 +52,6 @@ public class MenuFechadoController {
     Optional<ItemCombo> menuFechadoOpt = itemComboRepository.findById(id);
     if (menuFechadoOpt.isPresent()) {
       return ResponseEntity.ok(menuFechadoOpt.get());
-    } else {
-      return ResponseEntity.notFound().build();
-    }
-  }
-
-  @PostMapping("/adicionarItemAvulso")
-  public ResponseEntity<ItemCombo> adicionarItemAvulso(@RequestBody AdicionarItemAvulsoDTO adicionarItemAvulsoDTO) {
-    Long comandaId = adicionarItemAvulsoDTO.comandaId();
-    Long comboId = adicionarItemAvulsoDTO.comboId();
-    Long itemId = adicionarItemAvulsoDTO.itemId();
-
-    Optional<Comanda> comandaOpt = comandaRepository.findById(comandaId);
-    Optional<ItemCombo> comboOpt = itemComboRepository.findById(comboId);
-    Optional<ItemCardapio> itemAvulsoOpt = itemCardapioRepository.findById(itemId);
-
-    if (comandaOpt.isPresent() && comboOpt.isPresent() && itemAvulsoOpt.isPresent()) {
-      Comanda comanda = comandaOpt.get();
-      ItemCombo combo = comboOpt.get();
-      ItemCardapio itemAvulso = itemAvulsoOpt.get();
-
-      comanda.adicionarPedido(itemAvulso);
-      itemComboRepository.save(combo);
-
-      return ResponseEntity.ok(combo);
     } else {
       return ResponseEntity.notFound().build();
     }
