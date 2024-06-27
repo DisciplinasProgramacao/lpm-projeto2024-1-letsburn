@@ -35,4 +35,22 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleNumeroDePessoasExcedidoException(NumeroDePessoasExcedidoException ex, WebRequest request) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UnableToCloseAccountException.class)
+    public ResponseEntity<Object> handleUnableToCloseAccountException(UnableToCloseAccountException ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MesasOcupadasException.class)
+    public ResponseEntity<Object> handleMesasOcupadasException(MesasOcupadasException ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
 }
