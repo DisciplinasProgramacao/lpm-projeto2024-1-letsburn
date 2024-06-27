@@ -22,3 +22,4 @@ cd letsburn-api/src/main/java\com/api/letsburn_restaurante/LetsburnApiApplicatio
 
 ### Link para domentação do swagger:
 http://localhost:8080/swagger-ui/index.html 
+![alt text](image.png)
