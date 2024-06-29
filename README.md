@@ -1,5 +1,6 @@
-# Nome do projeto
-Escreva um ou dois parágrafos resumindo o objetivo do seu projeto.
+# LetsBurn
+
+Um restaurante de comidas veganas 
 
 ## Alunos integrantes da equipe
 

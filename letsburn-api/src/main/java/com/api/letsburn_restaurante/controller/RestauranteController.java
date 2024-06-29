@@ -2,10 +2,7 @@ package com.api.letsburn_restaurante.controller;
 
 import com.api.letsburn_restaurante.dto.RequestAtenderClienteDTO;
 import com.api.letsburn_restaurante.dto.ResponseComanda;
-import com.api.letsburn_restaurante.model.Requisicao;
 import com.api.letsburn_restaurante.service.RestauranteService;
-
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +21,15 @@ public class RestauranteController {
         return ResponseEntity.ok(idAtendimento);
     }
 
-    @PutMapping("/fazer-pedido/{id}")
-    public void fazerPedido(@PathVariable Long id, @RequestParam Long idItemCardapio) {
-        restauranteService.fazerPedido(id, idItemCardapio);
+    @PutMapping("/fazer-pedido/{idRequisicao}")
+    public void fazerPedido(@PathVariable Long idRequisicao, @RequestParam Long idItemCardapio) {
+        restauranteService.fazerPedido(idRequisicao, idItemCardapio);
     }
 
-    @PutMapping("/fechar-conta/{id}")
-    public ResponseEntity<ResponseComanda> fecharConta(@PathVariable Long id) {
-        ResponseComanda responseComanda = restauranteService.fecharConta(id);
+
+    @PutMapping("/fechar-conta/{idRequisicao}")
+    public ResponseEntity<ResponseComanda> fecharConta(@PathVariable Long idRequisicao) {
+        ResponseComanda responseComanda = restauranteService.fecharConta(idRequisicao);
         return ResponseEntity.ok(responseComanda);
-    }
-
-    @GetMapping("/requisicoes")
-    public ResponseEntity<List<Requisicao>> requisicoes(@RequestParam(required = false) Boolean ativa) {
-        return ResponseEntity.ok().body(restauranteService.requisicoes(ativa));
     }
 }
