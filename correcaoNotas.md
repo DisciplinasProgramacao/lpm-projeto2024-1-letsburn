@@ -77,6 +77,26 @@ Precisamos ter um 'orquestrador' para a apresentação do trabalho. O App/bean q
 Contribuições: Isaac++++, (Mateus, Gustavo, Amanda++), (Jorge, Gabriel ❌)
 	
 	
+## Sprint 4 - Apresentação em 26/06
+  - Nota de grupo 5,4/6 pontos
+	- Modelo atualizado - atualizado, mas com erros de notação nos relacionamentos.
+	- Apresentação - ok 
 	
+  - Nota das contribuições individuais: 12,6 <-> 14 pontos
+    - Correções das sprints anteriores + participação na última sprint
+
+### Observações de correção
+Execução requisitos via API - ok
+
+Pedido fechado (item combo) - ok
+
+Exceções - ok
+
+Modularidade - na maior parte, ok. Alguns detalhes como "isPresent" seguido de "get" (para isso temos o "orElse", se vocês querem usar optional), fechar conta deixando a comanda aberta. Documentação acabou prejudicada na maior parte das novas classes.
+
+Swagger - ok
+
+### Contribuições no repositório
+Para quem estava com muita coisa em atraso, acabei contabilizando como contribuição nesta sprint (assim não incorre em desconto por atraso). Portanto, a revisão da sprint 3 foi feita com a documentação apenas.
 
 	
